@@ -1,0 +1,27 @@
+{
+  "name": "asn1-pharser",
+  "version": "0.0.0",
+  "description": "To encode and decode asn.1",
+  "main": "lib/asn1.js",
+  "scripts": {
+    "build-watch" : "tsc -w",
+    "build" : "tsc",
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:aellison5505/asn1-pharser.git"
+  },
+  "keywords": [
+    "asn.1"
+  ],
+  "author": "Anthony Ellison",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^12.12.55",
+    "mocha": "^8.1.3",
+    "typedoc": "^0.19.0",
+    "typedoc-plugin-markdown": "^2.4.2",
+    "typescript": "^4.0.2"
+  }
+}
