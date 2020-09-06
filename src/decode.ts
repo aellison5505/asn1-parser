@@ -104,7 +104,8 @@ export class Decode {
                count = this.bitString(encoding,count);
                break;
          default:
-            throw new Error(`Tag Not Supported ${(encoding[count] & mask.tag).toString(10)}`)
+            //throw new Error(`Tag Not Supported ${(encoding[count] & mask.tag).toString(10)}`)
+            count = this.octetStringTag(encoding,count);
       }
       return count;
    }
@@ -198,7 +199,7 @@ export class Decode {
       this.decoded +=`${pre[this.pre]}Length: ${len}\n\t`;
       count++;
       let bit = Buffer.alloc(len);
-      encoding.copy(bit,0,count,count+len);
+      encoding.copy(bit,0,count+1,count+len);
       this.decoded +=`${pre[this.pre]}${bit.toString('hex')}\n`;
       count += len;
       return count;
@@ -215,7 +216,8 @@ export class Decode {
       let int = Buffer.alloc(len);
       encoding.copy(int,0,count,count+len);
       count += len;
-      this.decoded +=`${pre[this.pre]}${parseInt(int.toString('hex'), 16)}\n`;
+      this.decoded +=`${pre[this.pre]}Hex: ${int.toString('hex')}\n\t`;
+      this.decoded +=`${pre[this.pre]}BigInt: ${BigInt(`0x${int.toString('hex')}`)}\n`;
       return count;
    }
 
