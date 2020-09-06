@@ -13,6 +13,14 @@
 
 # Class: ASN1
 
+This will decode and build ASN.1
+Currently supported tags are
+INTEGER
+BIT_STRING
+OCTET_STRING
+OBJECT_IDENTIFIER
+SEQUENCE
+
 ## Hierarchy
 
 * **ASN1**
@@ -30,7 +38,7 @@
 
 ▸ **build**(`tagBuilder`: [TagBuilder](#classes_tagbuilders_tagbuildermd)): *string*
 
-Defined in asn1.ts:12
+Defined in asn1.ts:20
 
 **Parameters:**
 
@@ -46,7 +54,7 @@ ___
 
 ▸ **decode**(`encoding`: Buffer): *string*
 
-Defined in asn1.ts:7
+Defined in asn1.ts:15
 
 **Parameters:**
 
