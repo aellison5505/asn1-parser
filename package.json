@@ -6,7 +6,7 @@
   "scripts": {
     "build-watch": "tsc -w",
     "build": "tsc",
-    "build-docs": "touch ./readme.md && rm ./readme.md && npx typedoc --mode modules --excludePrivate --theme markdown --out /mnt/d/dev/asn1-pharser/docs /mnt/d/dev/asn1-pharser/src && npx concat-md --decrease-title-levels ./docs > README.md",
+    "build-docs": "touch ./readme.md && rm ./readme.md && npx typedoc --mode modules --theme markdown --out /mnt/d/dev/asn1-pharser/docs /mnt/d/dev/asn1-pharser/src && npx concat-md --decrease-title-levels ./docs > README.md",
     "test": "mocha"
   },
   "repository": {

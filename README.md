@@ -81,9 +81,24 @@ Name | Type |
 
 * [constructor](#constructor)
 
+### Properties
+
+* [ans1Map](#private-ans1map)
+* [decoded](#private-decoded)
+* [pre](#private-pre)
+
 ### Methods
 
+* [bitString](#private-bitstring)
 * [decode](#decode)
+* [getLength](#private-getlength)
+* [getTag](#private-gettag)
+* [integerTag](#private-integertag)
+* [nonUniversal](#private-nonuniversal)
+* [objectIdentifer](#private-objectidentifer)
+* [octetStringTag](#private-octetstringtag)
+* [sequenceTag](#private-sequencetag)
+* [universal](#private-universal)
 
 ## Constructors
 
@@ -95,7 +110,48 @@ Defined in decode.ts:8
 
 **Returns:** *[Decode](#classes_decode_decodemd)*
 
+## Properties
+
+### `Private` ans1Map
+
+• **ans1Map**: *Map‹any, any›*
+
+Defined in decode.ts:8
+
+___
+
+### `Private` decoded
+
+• **decoded**: *string*
+
+Defined in decode.ts:6
+
+___
+
+### `Private` pre
+
+• **pre**: *number*
+
+Defined in decode.ts:7
+
 ## Methods
+
+### `Private` bitString
+
+▸ **bitString**(`encoding`: Buffer, `count`: number): *number*
+
+Defined in decode.ts:193
+
+**Parameters:**
+
+Name | Type |
+------ | ------ |
+`encoding` | Buffer |
+`count` | number |
+
+**Returns:** *number*
+
+___
 
 ###  decode
 
@@ -110,6 +166,143 @@ Name | Type |
 `encoding` | Buffer |
 
 **Returns:** *string*
+
+___
+
+### `Private` getLength
+
+▸ **getLength**(`encoding`: Buffer, `count`: number): *number[]*
+
+Defined in decode.ts:47
+
+**Parameters:**
+
+Name | Type |
+------ | ------ |
+`encoding` | Buffer |
+`count` | number |
+
+**Returns:** *number[]*
+
+___
+
+### `Private` getTag
+
+▸ **getTag**(`encoding`: Buffer, `count`: number): *number*
+
+Defined in decode.ts:26
+
+**Parameters:**
+
+Name | Type |
+------ | ------ |
+`encoding` | Buffer |
+`count` | number |
+
+**Returns:** *number*
+
+___
+
+### `Private` integerTag
+
+▸ **integerTag**(`encoding`: Buffer, `count`: number): *number*
+
+Defined in decode.ts:208
+
+**Parameters:**
+
+Name | Type |
+------ | ------ |
+`encoding` | Buffer |
+`count` | number |
+
+**Returns:** *number*
+
+___
+
+### `Private` nonUniversal
+
+▸ **nonUniversal**(`encoding`: Buffer, `count`: number, `tag`: [tagClassType](#tagclasstype)): *number*
+
+Defined in decode.ts:65
+
+**Parameters:**
+
+Name | Type |
+------ | ------ |
+`encoding` | Buffer |
+`count` | number |
+`tag` | [tagClassType](#tagclasstype) |
+
+**Returns:** *number*
+
+___
+
+### `Private` objectIdentifer
+
+▸ **objectIdentifer**(`encoding`: Buffer, `count`: number): *number*
+
+Defined in decode.ts:136
+
+**Parameters:**
+
+Name | Type |
+------ | ------ |
+`encoding` | Buffer |
+`count` | number |
+
+**Returns:** *number*
+
+___
+
+### `Private` octetStringTag
+
+▸ **octetStringTag**(`encoding`: Buffer, `count`: number): *number*
+
+Defined in decode.ts:224
+
+**Parameters:**
+
+Name | Type |
+------ | ------ |
+`encoding` | Buffer |
+`count` | number |
+
+**Returns:** *number*
+
+___
+
+### `Private` sequenceTag
+
+▸ **sequenceTag**(`encoding`: Buffer, `count`: number): *number*
+
+Defined in decode.ts:113
+
+**Parameters:**
+
+Name | Type |
+------ | ------ |
+`encoding` | Buffer |
+`count` | number |
+
+**Returns:** *number*
+
+___
+
+### `Private` universal
+
+▸ **universal**(`encoding`: Buffer, `count`: number): *number*
+
+Defined in decode.ts:88
+
+**Parameters:**
+
+Name | Type |
+------ | ------ |
+`encoding` | Buffer |
+`count` | number |
+
+**Returns:** *number*
 
 
 <a name="classes_tagbuilders_bitstringmd"></a>
@@ -129,6 +322,10 @@ Name | Type |
 ### Constructors
 
 * [constructor](#constructor)
+
+### Properties
+
+* [_frameTag](#private-_frametag)
 
 ### Accessors
 
@@ -157,6 +354,14 @@ Name | Type |
 `_frameTag` | [bitStringFrame](#interfaces_util_bitstringframemd) |
 
 **Returns:** *[BitString](#classes_tagbuilders_bitstringmd)*
+
+## Properties
+
+### `Private` _frameTag
+
+• **_frameTag**: *[bitStringFrame](#interfaces_util_bitstringframemd)*
+
+Defined in tagBuilders.ts:78
 
 ## Accessors
 
@@ -261,6 +466,10 @@ Defined in tagBuilders.ts:33
 
 * [constructor](#constructor)
 
+### Properties
+
+* [_frameTag](#private-_frametag)
+
 ### Accessors
 
 * [coded](#coded)
@@ -288,6 +497,14 @@ Name | Type |
 `_frameTag` | [contextSpecificFrame](#interfaces_util_contextspecificframemd) |
 
 **Returns:** *[ContextSpecific](#classes_tagbuilders_contextspecificmd)*
+
+## Properties
+
+### `Private` _frameTag
+
+• **_frameTag**: *[contextSpecificFrame](#interfaces_util_contextspecificframemd)*
+
+Defined in tagBuilders.ts:161
 
 ## Accessors
 
@@ -392,6 +609,10 @@ Defined in tagBuilders.ts:33
 
 * [constructor](#constructor)
 
+### Properties
+
+* [_frameTag](#private-_frametag)
+
 ### Accessors
 
 * [coded](#coded)
@@ -419,6 +640,14 @@ Name | Type |
 `_frameTag` | [integerFrame](#interfaces_util_integerframemd) |
 
 **Returns:** *[Integer](#classes_tagbuilders_integermd)*
+
+## Properties
+
+### `Private` _frameTag
+
+• **_frameTag**: *[integerFrame](#interfaces_util_integerframemd)*
+
+Defined in tagBuilders.ts:70
 
 ## Accessors
 
@@ -523,6 +752,10 @@ Defined in tagBuilders.ts:33
 
 * [constructor](#constructor)
 
+### Properties
+
+* [_frameTag](#private-_frametag)
+
 ### Accessors
 
 * [coded](#coded)
@@ -532,6 +765,10 @@ Defined in tagBuilders.ts:33
 * [length](#length)
 * [tag](#tag)
 * [tagClass](#tagclass)
+
+### Methods
+
+* [buildObjectId](#private-buildobjectid)
 
 ## Constructors
 
@@ -550,6 +787,14 @@ Name | Type |
 `_frameTag` | [objectIdentifierFrame](#interfaces_util_objectidentifierframemd) |
 
 **Returns:** *[ObjectIdentifier](#classes_tagbuilders_objectidentifiermd)*
+
+## Properties
+
+### `Private` _frameTag
+
+• **_frameTag**: *[objectIdentifierFrame](#interfaces_util_objectidentifierframemd)*
+
+Defined in tagBuilders.ts:92
 
 ## Accessors
 
@@ -635,6 +880,16 @@ Defined in tagBuilders.ts:33
 
 **Returns:** *[tagClass](#enums_util_tagclassmd)*
 
+## Methods
+
+### `Private` buildObjectId
+
+▸ **buildObjectId**(): *Buffer*
+
+Defined in tagBuilders.ts:97
+
+**Returns:** *Buffer*
+
 
 <a name="classes_tagbuilders_octetstringmd"></a>
 
@@ -653,6 +908,10 @@ Defined in tagBuilders.ts:33
 ### Constructors
 
 * [constructor](#constructor)
+
+### Properties
+
+* [_frameTag](#private-_frametag)
 
 ### Accessors
 
@@ -681,6 +940,14 @@ Name | Type |
 `_frameTag` | [octetStringFrame](#interfaces_util_octetstringframemd) |
 
 **Returns:** *[OctetString](#classes_tagbuilders_octetstringmd)*
+
+## Properties
+
+### `Private` _frameTag
+
+• **_frameTag**: *[octetStringFrame](#interfaces_util_octetstringframemd)*
+
+Defined in tagBuilders.ts:85
 
 ## Accessors
 
@@ -785,6 +1052,10 @@ Defined in tagBuilders.ts:33
 
 * [constructor](#constructor)
 
+### Properties
+
+* [_frameTag](#private-_frametag)
+
 ### Accessors
 
 * [coded](#coded)
@@ -794,6 +1065,10 @@ Defined in tagBuilders.ts:33
 * [length](#length)
 * [tag](#tag)
 * [tagClass](#tagclass)
+
+### Methods
+
+* [buildData](#private-builddata)
 
 ## Constructors
 
@@ -812,6 +1087,14 @@ Name | Type |
 `_frameTag` | [sequenceFrame](#interfaces_util_sequenceframemd) |
 
 **Returns:** *[Sequence](#classes_tagbuilders_sequencemd)*
+
+## Properties
+
+### `Private` _frameTag
+
+• **_frameTag**: *[sequenceFrame](#interfaces_util_sequenceframemd)*
+
+Defined in tagBuilders.ts:143
 
 ## Accessors
 
@@ -897,6 +1180,16 @@ Defined in tagBuilders.ts:33
 
 **Returns:** *[tagClass](#enums_util_tagclassmd)*
 
+## Methods
+
+### `Private` buildData
+
+▸ **buildData**(): *Buffer*
+
+Defined in tagBuilders.ts:149
+
+**Returns:** *Buffer*
+
 
 <a name="classes_tagbuilders_tagbuildermd"></a>
 
@@ -926,6 +1219,12 @@ Defined in tagBuilders.ts:33
 
 * [constructor](#constructor)
 
+### Properties
+
+* [_frame](#private-_frame)
+* [_tag](#private-_tag)
+* [_tagClass](#private-_tagclass)
+
 ### Accessors
 
 * [coded](#coded)
@@ -935,6 +1234,11 @@ Defined in tagBuilders.ts:33
 * [length](#length)
 * [tag](#tag)
 * [tagClass](#tagclass)
+
+### Methods
+
+* [integerBuffer](#private-integerbuffer)
+* [integerHex](#private-integerhex)
 
 ## Constructors
 
@@ -953,6 +1257,30 @@ Name | Type |
 `_tagClass` | [tagClassType](#tagclasstype) |
 
 **Returns:** *[TagBuilder](#classes_tagbuilders_tagbuildermd)*
+
+## Properties
+
+### `Private` _frame
+
+• **_frame**: *[tagFrameType](#tagframetype)*
+
+Defined in tagBuilders.ts:5
+
+___
+
+### `Private` _tag
+
+• **_tag**: *[tagType](#tagtype)*
+
+Defined in tagBuilders.ts:5
+
+___
+
+### `Private` _tagClass
+
+• **_tagClass**: *[tagClassType](#tagclasstype)*
+
+Defined in tagBuilders.ts:5
 
 ## Accessors
 
@@ -1023,6 +1351,38 @@ ___
 Defined in tagBuilders.ts:33
 
 **Returns:** *[tagClass](#enums_util_tagclassmd)*
+
+## Methods
+
+### `Private` integerBuffer
+
+▸ **integerBuffer**(`int`: number): *Buffer*
+
+Defined in tagBuilders.ts:10
+
+**Parameters:**
+
+Name | Type |
+------ | ------ |
+`int` | number |
+
+**Returns:** *Buffer*
+
+___
+
+### `Private` integerHex
+
+▸ **integerHex**(`int`: number): *string*
+
+Defined in tagBuilders.ts:14
+
+**Parameters:**
+
+Name | Type |
+------ | ------ |
+`int` | number |
+
+**Returns:** *string*
 
 
 <a name="enums_util_formmd"></a>
