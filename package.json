@@ -1,6 +1,6 @@
 {
   "name": "asn1-pharser",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "To encode and decode asn.1",
   "main": "lib/asn1.js",
   "scripts": {
