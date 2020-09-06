@@ -1,4 +1,4 @@
-
+import { TagBuilder } from './tagBuilders';
  export type tagClassType =  keyof typeof tagClass;
  
  export enum tagClass {
@@ -39,8 +39,6 @@
       tagClass = 0x03 << 6,
       form = 0x01 << 5,
       bit8 = 0x01 << 7
-    
-
  }
 
  export enum pre {
@@ -49,3 +47,19 @@
      '\t\t',
      '\t\t\t'
  }
+
+ export interface tagFrame {
+     form?: formType;
+     length?: number;
+}
+
+export interface integerFrame extends tagFrame {
+    data: Buffer;
+}
+
+export interface sequenceFrame extends tagFrame {
+    children: TagBuilder[];
+    form: formType
+}
+
+

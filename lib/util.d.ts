@@ -1,3 +1,5 @@
+/// <reference types="node" />
+import { TagBuilder } from './tagBuilders';
 export declare type tagClassType = keyof typeof tagClass;
 export declare enum tagClass {
     Universal = 0,
@@ -37,4 +39,15 @@ export declare enum pre {
     '\t' = 1,
     '\t\t' = 2,
     '\t\t\t' = 3
+}
+export interface tagFrame {
+    form?: formType;
+    length?: number;
+}
+export interface integerFrame extends tagFrame {
+    data: Buffer;
+}
+export interface sequenceFrame extends tagFrame {
+    children: TagBuilder[];
+    form: formType;
 }
