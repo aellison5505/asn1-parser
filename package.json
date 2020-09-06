@@ -1,6 +1,6 @@
 {
   "name": "asn1-pharser",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "To encode and decode asn.1",
   "main": "lib/asn1.js",
   "scripts": {
@@ -26,6 +26,5 @@
     "typescript": "^4.0.2",
     "concat-md": "^0.3.5"
   },
-  "dependencies": {
-  }
+  "dependencies": {}
 }
