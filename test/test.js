@@ -1,6 +1,6 @@
 const { ASN1 } = require('../lib/asn1');
 const { createECDH } = require('crypto');
-const { Integer, Sequence } = require('../lib/tagBuilders');
+const { Integer, Sequence, BitString, ContextSpecific, OctetString, ObjectIdentifier } = require('../lib/tagBuilders');
 
 let ec = createECDH('secp256k1');
 ec.generateKeys();
@@ -18,23 +18,32 @@ let sect571k1 = Buffer.from('MIHuAgEBBEgBL68PizRJeKHpR6QRHmDpd0x39lX72781vPVpB/G
 //console.log(sect571k1.toString('hex'));
 
 let asn1 = new ASN1();
-//asn1.decode(pubKey);
-//asn1.decode(key);
+//asn1.decode(sect571k1);
+asn1.decode(Buffer.from('BgUrgQQACg==','base64'));
 //let hex = asn1.encode(new Integer({
  //   data: Buffer.from((100).toString(16),'hex')
 //}));
-let num = (1400).toString(16);
+let num = (1400134).toString(16);
 (num.length%2 != 0 ? num = `0${num}` : num);
 console.log(Buffer.from(num,'hex'));
 console.log(num.length%2);
 
-
-let hex2 = asn1.encode(new Sequence({
+let bitString = Buffer.from('a0f2457709b2d5', 'hex');
+let hex2 = asn1.build(new Sequence({
     children: [
-       new Integer({
-           data: Buffer.from(num,'hex'),
-       }),   
-   ],
-   form: 'Constructed'
+        new Integer({
+        data: Buffer.from(num,'hex'),
+        }),
+       
+        new ContextSpecific({
+            tag: 1,
+            form: 'Constructed',
+            child:  new ObjectIdentifier({
+                str: '1.3.132.0.38'
+            })
+        })
+    ],
+    //  form: 'Constructed'
 }));
 console.log(hex2)
+asn1.decode(Buffer.from(hex2, 'hex'));

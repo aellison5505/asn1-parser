@@ -29,7 +29,8 @@ import { TagBuilder } from './tagBuilders';
    PrintableString = 0x13,
    IA5String = 0x16,
    UTCTime = 0x17,
-   GeneralizedTime = 0x18
+   GeneralizedTime = 0x18,
+   CUSTOM = 0x00
  }
 
  export type maskType = keyof typeof mask;
@@ -48,18 +49,43 @@ import { TagBuilder } from './tagBuilders';
      '\t\t\t'
  }
 
+ export type tagFrameType = tagFrame 
+    | integerFrame
+    | sequenceFrame
+    | bitStringFrame
+    | octetStringFrame
+    | contextSpecificFrame
+    | objectIdentifierFrame
+
  export interface tagFrame {
      form?: formType;
      length?: number;
+     data?: Buffer
 }
 
 export interface integerFrame extends tagFrame {
     data: Buffer;
 }
 
+export interface bitStringFrame extends tagFrame {
+    data: Buffer;
+}
+   export interface octetStringFrame extends tagFrame {
+    data: Buffer;
+}
+
+export interface objectIdentifierFrame extends tagFrame {
+    str?: string;
+}
+
 export interface sequenceFrame extends tagFrame {
     children: TagBuilder[];
     form: formType
+}
+export interface contextSpecificFrame extends tagFrame {
+    child: TagBuilder;
+    form: formType;
+    tag: number;
 }
 
 

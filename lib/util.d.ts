@@ -25,7 +25,8 @@ export declare enum tag {
     PrintableString = 19,
     IA5String = 22,
     UTCTime = 23,
-    GeneralizedTime = 24
+    GeneralizedTime = 24,
+    CUSTOM = 0
 }
 export declare type maskType = keyof typeof mask;
 export declare enum mask {
@@ -40,14 +41,30 @@ export declare enum pre {
     '\t\t' = 2,
     '\t\t\t' = 3
 }
+export declare type tagFrameType = tagFrame | integerFrame | sequenceFrame | bitStringFrame | octetStringFrame | contextSpecificFrame | objectIdentifierFrame;
 export interface tagFrame {
     form?: formType;
     length?: number;
+    data?: Buffer;
 }
 export interface integerFrame extends tagFrame {
     data: Buffer;
 }
+export interface bitStringFrame extends tagFrame {
+    data: Buffer;
+}
+export interface octetStringFrame extends tagFrame {
+    data: Buffer;
+}
+export interface objectIdentifierFrame extends tagFrame {
+    str?: string;
+}
 export interface sequenceFrame extends tagFrame {
     children: TagBuilder[];
     form: formType;
+}
+export interface contextSpecificFrame extends tagFrame {
+    child: TagBuilder;
+    form: formType;
+    tag: number;
 }

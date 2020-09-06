@@ -23,7 +23,7 @@ export class Decode {
 
    }
 
-   getTag(encoding: Buffer, count: number): number{
+   private getTag(encoding: Buffer, count: number): number{
    //   console.log('tag enc',encoding[count].toString(16))
       switch(encoding[count] & mask.tagClass) {
          case tagClass.Universal:
@@ -44,7 +44,7 @@ export class Decode {
       return count;
    }
 
-   getLength(encoding: Buffer, count: number): number[] {
+   private getLength(encoding: Buffer, count: number): number[] {
       if(encoding[count] & mask.bit8) {
          // get long length
          let hexCount = encoding[count] & ~mask.bit8;
@@ -62,7 +62,7 @@ export class Decode {
       }
    }
 
-   nonUniversal(encoding: Buffer, count: number, tag: tagClassType): number {
+   private nonUniversal(encoding: Buffer, count: number, tag: tagClassType): number {
       this.decoded +=`${pre[this.pre]}${tagClass[tagClass[tag]]}\n\t`;
       this.decoded +=`${pre[this.pre]}${form[encoding[count] & mask.form]}\n\t`;
       this.decoded +=`${pre[this.pre]}Tag: ${(encoding[count] & mask.tag).toString(10)}\n\t`;
@@ -85,7 +85,7 @@ export class Decode {
       return count;
    }
 
-   universal(encoding: Buffer, count: number): number {
+   private universal(encoding: Buffer, count: number): number {
 
       switch (encoding[count] & mask.tag) {
          case tag.SEQUENCE:
@@ -109,7 +109,7 @@ export class Decode {
       return count;
    }
 
-   sequenceTag(encoding: Buffer, count: number): number {
+   private sequenceTag(encoding: Buffer, count: number): number {
       this.decoded +=`${pre[this.pre]}${tag[0x10]}\n\t`;
       this.decoded +=`${pre[this.pre]}${form[encoding[count] & mask.form]}\n\t`;
       count++;
@@ -132,7 +132,7 @@ export class Decode {
       return count;
    }
 
-   objectIdentifer(encoding: Buffer, count: number): number {
+   private objectIdentifer(encoding: Buffer, count: number): number {
       this.decoded +=`${pre[this.pre]}${tag[tag.OBJECT_IDENTIFIER]}\n\t`;
       this.decoded +=`${pre[this.pre]}${form[encoding[count] & mask.form]}\n\t`;
       count++;
@@ -142,12 +142,54 @@ export class Decode {
       count++;
       let obj = Buffer.alloc(len);
       encoding.copy(obj,0,count,count+len);
-      this.decoded +=`${pre[this.pre]}${obj.toString('hex')}\n`;
+      let strObj = '';
+      let pack = 0;
+      let carry = 0;
+      let strBuf = Buffer.alloc(0);
+      obj.forEach((byte,i) => {
+         console.log('b',byte.toString(16))
+         if(i === 0) {
+            strObj = `${Math.floor(byte/40)}.${byte%40}`;
+            console.log(strObj);
+            return;
+         }
+         if(byte & mask.bit8) {
+            byte = byte & ~mask.bit8;
+            let bit1 = byte & 1;
+            byte = byte >> 1;
+            byte = (carry << 7) | byte;
+            carry = bit1;
+            pack = 1;
+            strBuf = Buffer.concat([strBuf, Buffer.alloc(1,byte)]);
+            console.log('carry', byte.toString(16));
+            return;
+         }
+         if(pack === 1) {
+            byte = (carry << 7) | byte;
+            carry = 0;
+            pack = 0;
+            strBuf = Buffer.concat([strBuf, Buffer.alloc(1,byte)]);
+            console.log('last', byte.toString(16));
+            let strTemp = parseInt(strBuf.toString('hex'),16);
+            strObj += `.${strTemp}`;
+            console.log('str',strObj);
+            strBuf = Buffer.alloc(0);
+            return;
+         }
+         if(pack === 0) {
+            strObj += `.${byte.toString(10)}`;
+            console.log(strObj);
+            return;
+         }
+
+      });
+      this.decoded +=`${pre[this.pre]}${obj.toString('hex')}\n\t`;
+      this.decoded +=`${pre[this.pre]}${strObj}\n`;
       count += len;
       return count;
    }
 
-   bitString(encoding: Buffer, count: number): number {
+   private bitString(encoding: Buffer, count: number): number {
       this.decoded +=`${pre[this.pre]}${tag[tag.BIT_STRING]}\n\t`;
       this.decoded +=`${pre[this.pre]}${form[encoding[count] & mask.form]}\n\t`;
       count++;
@@ -162,7 +204,7 @@ export class Decode {
       return count;
    }
 
-   integerTag(encoding: Buffer, count: number): number {
+   private integerTag(encoding: Buffer, count: number): number {
       this.decoded +=`${pre[this.pre]}${tag[tag.INTEGER]}\n\t`;
       this.decoded +=`${pre[this.pre]}${form[encoding[count] & mask.form]}\n\t`;
       count++;
@@ -177,7 +219,7 @@ export class Decode {
       return count;
    }
 
-   octetStringTag(encoding: Buffer, count: number): number {
+   private octetStringTag(encoding: Buffer, count: number): number {
       this.decoded +=`${pre[this.pre]}${tag[tag.OCTET_STRING]}\n\t`;
       this.decoded +=`${pre[this.pre]}${form[encoding[count] & mask.form]}\n\t`;
       count++;

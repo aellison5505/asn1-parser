@@ -9,10 +9,8 @@ export class ASN1 {
       return decode.decode(encoding);
    }
 
-   encode(tagBuilder: TagBuilder) {
+   build(tagBuilder: TagBuilder) {
       return tagBuilder.coded.toString('hex');
    }
-
-
 
 }
