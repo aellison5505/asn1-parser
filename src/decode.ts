@@ -3,9 +3,9 @@ import { form,formType,maskType,mask,tag,tagClass,tagClassType, tagType, pre } f
 
 export class Decode {
 
-   decoded: string;
-   pre: number;
-   ans1Map: Map<any,any>;
+   private decoded: string;
+   private pre: number;
+   private ans1Map: Map<any,any>;
 
    constructor() {
       this.decoded = '';

@@ -1,8 +1,8 @@
 /// <reference types="node" />
 export declare class Decode {
-    decoded: string;
-    pre: number;
-    ans1Map: Map<any, any>;
+    private decoded;
+    private pre;
+    private ans1Map;
     constructor();
     decode(encoding: Buffer): string;
     private getTag;
