@@ -15,11 +15,12 @@
 
 This will decode and build ASN.1
 Currently supported tags are
-INTEGER
-BIT_STRING
-OCTET_STRING
-OBJECT_IDENTIFIER
-SEQUENCE
+ INTEGER
+ BIT_STRING
+ OCTET_STRING
+ OBJECT_IDENTIFIER
+ SEQUENCE
+ Context_Specific
 
 ## Hierarchy
 
@@ -29,17 +30,38 @@ SEQUENCE
 
 ### Methods
 
+* [bitString](#bitstring)
 * [build](#build)
+* [contextSpecific](#contextspecific)
 * [decode](#decode)
+* [integer](#integer)
+* [objectIdentifier](#objectidentifier)
+* [octetString](#octetstring)
 * [sequence](#sequence)
 
 ## Methods
+
+###  bitString
+
+▸ **bitString**(`frameTag`: [bitStringFrame](#interfaces_util_bitstringframemd)): *[BitString](#classes_tagbuilders_bitstringmd)*
+
+Defined in asn1.ts:40
+
+**Parameters:**
+
+Name | Type |
+------ | ------ |
+`frameTag` | [bitStringFrame](#interfaces_util_bitstringframemd) |
+
+**Returns:** *[BitString](#classes_tagbuilders_bitstringmd)*
+
+___
 
 ###  build
 
 ▸ **build**(`tagBuilder`: [tagBuilderType](#tagbuildertype)): *string*
 
-Defined in asn1.ts:21
+Defined in asn1.ts:28
 
 **Parameters:**
 
@@ -51,19 +73,85 @@ Name | Type |
 
 ___
 
-###  decode
+###  contextSpecific
 
-▸ **decode**(`encoding`: Buffer): *string*
+▸ **contextSpecific**(`frameTag`: [contextSpecificFrame](#interfaces_util_contextspecificframemd)): *[ContextSpecific](#classes_tagbuilders_contextspecificmd)*
 
-Defined in asn1.ts:16
+Defined in asn1.ts:52
 
 **Parameters:**
 
 Name | Type |
 ------ | ------ |
-`encoding` | Buffer |
+`frameTag` | [contextSpecificFrame](#interfaces_util_contextspecificframemd) |
 
-**Returns:** *string*
+**Returns:** *[ContextSpecific](#classes_tagbuilders_contextspecificmd)*
+
+___
+
+###  decode
+
+▸ **decode**(`encoding`: Buffer): *[string, Map‹string, [buildMap](#interfaces_util_buildmapmd)›]*
+
+Defined in asn1.ts:23
+
+**Parameters:**
+
+Name | Type | Description |
+------ | ------ | ------ |
+`encoding` | Buffer | Buffer of DER encoded data |
+
+**Returns:** *[string, Map‹string, [buildMap](#interfaces_util_buildmapmd)›]*
+
+formatted string of decoded, Map of decoded
+
+___
+
+###  integer
+
+▸ **integer**(`frameTag`: [integerFrame](#interfaces_util_integerframemd)): *[Integer](#classes_tagbuilders_integermd)*
+
+Defined in asn1.ts:36
+
+**Parameters:**
+
+Name | Type |
+------ | ------ |
+`frameTag` | [integerFrame](#interfaces_util_integerframemd) |
+
+**Returns:** *[Integer](#classes_tagbuilders_integermd)*
+
+___
+
+###  objectIdentifier
+
+▸ **objectIdentifier**(`frameTag`: [objectIdentifierFrame](#interfaces_util_objectidentifierframemd)): *[ObjectIdentifier](#classes_tagbuilders_objectidentifiermd)*
+
+Defined in asn1.ts:48
+
+**Parameters:**
+
+Name | Type |
+------ | ------ |
+`frameTag` | [objectIdentifierFrame](#interfaces_util_objectidentifierframemd) |
+
+**Returns:** *[ObjectIdentifier](#classes_tagbuilders_objectidentifiermd)*
+
+___
+
+###  octetString
+
+▸ **octetString**(`frameTag`: [octetStringFrame](#interfaces_util_octetstringframemd)): *[OctetString](#classes_tagbuilders_octetstringmd)*
+
+Defined in asn1.ts:44
+
+**Parameters:**
+
+Name | Type |
+------ | ------ |
+`frameTag` | [octetStringFrame](#interfaces_util_octetstringframemd) |
+
+**Returns:** *[OctetString](#classes_tagbuilders_octetstringmd)*
 
 ___
 
@@ -71,7 +159,7 @@ ___
 
 ▸ **sequence**(`frameTag`: [sequenceFrame](#interfaces_util_sequenceframemd)): *[Sequence](#classes_tagbuilders_sequencemd)*
 
-Defined in asn1.ts:25
+Defined in asn1.ts:32
 
 **Parameters:**
 
@@ -100,9 +188,10 @@ Name | Type |
 
 ### Properties
 
-* [ans1Map](#private-ans1map)
+* [buildMap](#private-buildmap)
 * [decoded](#private-decoded)
 * [pre](#private-pre)
+* [step](#private-step)
 
 ### Methods
 
@@ -123,17 +212,17 @@ Name | Type |
 
 \+ **new Decode**(): *[Decode](#classes_decode_decodemd)*
 
-Defined in decode.ts:8
+Defined in decode.ts:10
 
 **Returns:** *[Decode](#classes_decode_decodemd)*
 
 ## Properties
 
-### `Private` ans1Map
+### `Private` buildMap
 
-• **ans1Map**: *Map‹any, any›*
+• **buildMap**: *Map‹string, [buildMap](#interfaces_util_buildmapmd)›*
 
-Defined in decode.ts:8
+Defined in decode.ts:9
 
 ___
 
@@ -141,7 +230,7 @@ ___
 
 • **decoded**: *string*
 
-Defined in decode.ts:6
+Defined in decode.ts:7
 
 ___
 
@@ -149,7 +238,15 @@ ___
 
 • **pre**: *number*
 
-Defined in decode.ts:7
+Defined in decode.ts:8
+
+___
+
+### `Private` step
+
+• **step**: *number*
+
+Defined in decode.ts:10
 
 ## Methods
 
@@ -157,7 +254,7 @@ Defined in decode.ts:7
 
 ▸ **bitString**(`encoding`: Buffer, `count`: number): *number*
 
-Defined in decode.ts:193
+Defined in decode.ts:222
 
 **Parameters:**
 
@@ -172,9 +269,9 @@ ___
 
 ###  decode
 
-▸ **decode**(`encoding`: Buffer): *string*
+▸ **decode**(`encoding`: Buffer): *[string, Map‹string, [buildMap](#interfaces_util_buildmapmd)›]*
 
-Defined in decode.ts:16
+Defined in decode.ts:19
 
 **Parameters:**
 
@@ -182,7 +279,7 @@ Name | Type |
 ------ | ------ |
 `encoding` | Buffer |
 
-**Returns:** *string*
+**Returns:** *[string, Map‹string, [buildMap](#interfaces_util_buildmapmd)›]*
 
 ___
 
@@ -190,7 +287,7 @@ ___
 
 ▸ **getLength**(`encoding`: Buffer, `count`: number): *number[]*
 
-Defined in decode.ts:47
+Defined in decode.ts:52
 
 **Parameters:**
 
@@ -207,7 +304,7 @@ ___
 
 ▸ **getTag**(`encoding`: Buffer, `count`: number): *number*
 
-Defined in decode.ts:26
+Defined in decode.ts:31
 
 **Parameters:**
 
@@ -224,7 +321,7 @@ ___
 
 ▸ **integerTag**(`encoding`: Buffer, `count`: number): *number*
 
-Defined in decode.ts:208
+Defined in decode.ts:244
 
 **Parameters:**
 
@@ -241,7 +338,7 @@ ___
 
 ▸ **nonUniversal**(`encoding`: Buffer, `count`: number, `tag`: [tagClassType](#tagclasstype)): *number*
 
-Defined in decode.ts:65
+Defined in decode.ts:70
 
 **Parameters:**
 
@@ -259,7 +356,7 @@ ___
 
 ▸ **objectIdentifer**(`encoding`: Buffer, `count`: number): *number*
 
-Defined in decode.ts:136
+Defined in decode.ts:157
 
 **Parameters:**
 
@@ -276,7 +373,7 @@ ___
 
 ▸ **octetStringTag**(`encoding`: Buffer, `count`: number): *number*
 
-Defined in decode.ts:224
+Defined in decode.ts:260
 
 **Parameters:**
 
@@ -293,7 +390,7 @@ ___
 
 ▸ **sequenceTag**(`encoding`: Buffer, `count`: number): *number*
 
-Defined in decode.ts:113
+Defined in decode.ts:124
 
 **Parameters:**
 
@@ -310,7 +407,7 @@ ___
 
 ▸ **universal**(`encoding`: Buffer, `count`: number): *number*
 
-Defined in decode.ts:88
+Defined in decode.ts:99
 
 **Parameters:**
 
@@ -505,7 +602,7 @@ Defined in tagBuilders.ts:41
 
 *Overrides [TagBuilder](#classes_tagbuilders_tagbuildermd).[constructor](#constructor)*
 
-Defined in tagBuilders.ts:167
+Defined in tagBuilders.ts:168
 
 **Parameters:**
 
@@ -521,7 +618,7 @@ Name | Type |
 
 • **_frameTag**: *[contextSpecificFrame](#interfaces_util_contextspecificframemd)*
 
-Defined in tagBuilders.ts:169
+Defined in tagBuilders.ts:170
 
 ## Accessors
 
@@ -591,7 +688,7 @@ ___
 
 *Overrides [TagBuilder](#classes_tagbuilders_tagbuildermd).[tag](#tag)*
 
-Defined in tagBuilders.ts:175
+Defined in tagBuilders.ts:176
 
 **Returns:** *number*
 
@@ -1095,7 +1192,7 @@ Defined in tagBuilders.ts:41
 
 *Overrides [TagBuilder](#classes_tagbuilders_tagbuildermd).[constructor](#constructor)*
 
-Defined in tagBuilders.ts:149
+Defined in tagBuilders.ts:150
 
 **Parameters:**
 
@@ -1111,7 +1208,7 @@ Name | Type |
 
 • **_frameTag**: *[sequenceFrame](#interfaces_util_sequenceframemd)*
 
-Defined in tagBuilders.ts:151
+Defined in tagBuilders.ts:152
 
 ## Accessors
 
@@ -1203,7 +1300,7 @@ Defined in tagBuilders.ts:41
 
 ▸ **buildData**(): *Buffer*
 
-Defined in tagBuilders.ts:157
+Defined in tagBuilders.ts:158
 
 **Returns:** *Buffer*
 
@@ -1747,7 +1844,7 @@ Defined in util.ts:5
 
 *Overrides [tagFrame](#interfaces_util_tagframemd).[data](#optional-data)*
 
-Defined in util.ts:71
+Defined in util.ts:70
 
 ___
 
@@ -1768,6 +1865,112 @@ ___
 *Inherited from [tagFrame](#interfaces_util_tagframemd).[length](#optional-length)*
 
 Defined in util.ts:62
+
+
+<a name="interfaces_util_buildmapmd"></a>
+
+[asn1-pharser](#globalsmd) › ["util"](#modules_util_md) › [buildMap](#interfaces_util_buildmapmd)
+
+# Interface: buildMap
+
+## Hierarchy
+
+* [tagFrame](#interfaces_util_tagframemd)
+
+  ↳ [objectIdentifierFrame](#interfaces_util_objectidentifierframemd)
+
+  ↳ **buildMap**
+
+## Index
+
+### Properties
+
+* [child](#optional-child)
+* [children](#optional-children)
+* [data](#optional-data)
+* [form](#optional-form)
+* [hex](#optional-hex)
+* [length](#optional-length)
+* [str](#optional-str)
+* [value](#optional-value)
+
+## Properties
+
+### `Optional` child
+
+• **child**? : *Map‹string, [buildMap](#interfaces_util_buildmapmd)›*
+
+Defined in util.ts:91
+
+___
+
+### `Optional` children
+
+• **children**? : *Map‹string, [buildMap](#interfaces_util_buildmapmd)›*
+
+Defined in util.ts:92
+
+___
+
+### `Optional` data
+
+• **data**? : *Buffer*
+
+*Inherited from [tagFrame](#interfaces_util_tagframemd).[data](#optional-data)*
+
+*Overrides [tagFrame](#interfaces_util_tagframemd).[data](#optional-data)*
+
+Defined in util.ts:63
+
+___
+
+### `Optional` form
+
+• **form**? : *[formType](#formtype)*
+
+*Inherited from [tagFrame](#interfaces_util_tagframemd).[form](#optional-form)*
+
+*Overrides [tagFrame](#interfaces_util_tagframemd).[form](#optional-form)*
+
+Defined in util.ts:61
+
+___
+
+### `Optional` hex
+
+• **hex**? : *undefined | string*
+
+Defined in util.ts:94
+
+___
+
+### `Optional` length
+
+• **length**? : *undefined | number*
+
+*Inherited from [tagFrame](#interfaces_util_tagframemd).[length](#optional-length)*
+
+*Overrides [tagFrame](#interfaces_util_tagframemd).[length](#optional-length)*
+
+Defined in util.ts:62
+
+___
+
+### `Optional` str
+
+• **str**? : *undefined | string*
+
+*Inherited from [objectIdentifierFrame](#interfaces_util_objectidentifierframemd).[str](#optional-str)*
+
+Defined in util.ts:77
+
+___
+
+### `Optional` value
+
+• **value**? : *any*
+
+Defined in util.ts:93
 
 
 <a name="interfaces_util_contextspecificframemd"></a>
@@ -1796,9 +1999,9 @@ Defined in util.ts:62
 
 ###  child
 
-• **child**: *[TagBuilder](#classes_tagbuilders_tagbuildermd)*
+• **child**: *[tagBuilderType](#tagbuildertype)*
 
-Defined in util.ts:86
+Defined in util.ts:85
 
 ___
 
@@ -1818,7 +2021,7 @@ ___
 
 *Overrides [tagFrame](#interfaces_util_tagframemd).[form](#optional-form)*
 
-Defined in util.ts:87
+Defined in util.ts:86
 
 ___
 
@@ -1836,7 +2039,7 @@ ___
 
 • **tag**: *number*
 
-Defined in util.ts:88
+Defined in util.ts:87
 
 
 <a name="interfaces_util_integerframemd"></a>
@@ -1867,7 +2070,7 @@ Defined in util.ts:88
 
 *Overrides [tagFrame](#interfaces_util_tagframemd).[data](#optional-data)*
 
-Defined in util.ts:67
+Defined in util.ts:66
 
 ___
 
@@ -1901,6 +2104,8 @@ Defined in util.ts:62
 * [tagFrame](#interfaces_util_tagframemd)
 
   ↳ **objectIdentifierFrame**
+
+  ↳ [buildMap](#interfaces_util_buildmapmd)
 
 ## Index
 
@@ -1947,7 +2152,7 @@ ___
 
 • **str**? : *undefined | string*
 
-Defined in util.ts:78
+Defined in util.ts:77
 
 
 <a name="interfaces_util_octetstringframemd"></a>
@@ -1978,7 +2183,7 @@ Defined in util.ts:78
 
 *Overrides [tagFrame](#interfaces_util_tagframemd).[data](#optional-data)*
 
-Defined in util.ts:74
+Defined in util.ts:73
 
 ___
 
@@ -2026,9 +2231,9 @@ Defined in util.ts:62
 
 ###  children
 
-• **children**: *[TagBuilder](#classes_tagbuilders_tagbuildermd)[]*
+• **children**: *[tagBuilderType](#tagbuildertype)[]*
 
-Defined in util.ts:82
+Defined in util.ts:81
 
 ___
 
@@ -2048,7 +2253,7 @@ ___
 
 *Overrides [tagFrame](#interfaces_util_tagframemd).[form](#optional-form)*
 
-Defined in util.ts:83
+Defined in util.ts:82
 
 ___
 
@@ -2082,6 +2287,8 @@ Defined in util.ts:62
   ↳ [sequenceFrame](#interfaces_util_sequenceframemd)
 
   ↳ [contextSpecificFrame](#interfaces_util_contextspecificframemd)
+
+  ↳ [buildMap](#interfaces_util_buildmapmd)
 
 ## Index
 
@@ -2192,6 +2399,7 @@ Defined in tagBuilders.ts:3
 ### Interfaces
 
 * [bitStringFrame](#interfaces_util_bitstringframemd)
+* [buildMap](#interfaces_util_buildmapmd)
 * [contextSpecificFrame](#interfaces_util_contextspecificframemd)
 * [integerFrame](#interfaces_util_integerframemd)
 * [objectIdentifierFrame](#interfaces_util_objectidentifierframemd)
