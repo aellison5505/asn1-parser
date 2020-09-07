@@ -16,7 +16,7 @@ export declare class ASN1 {
     /**
      *
      * @param encoding Buffer of DER encoded data
-     * @returns formatted string of decoded
+     * @returns [string, Map<string, buildMap>] formatted string of decoded, Map of decoded
      */
     decode(encoding: Buffer): [string, Map<string, import("./util").buildMap>];
     build(tagBuilder: tagBuilderType): string;
