@@ -22,7 +22,7 @@ let sect571k1 = Buffer.from('MIHuAgEBBEgBL68PizRJeKHpR6QRHmDpd0x39lX72781vPVpB/G
 //console.log(rsaKey.toString('hex'));
 
 let asn1 = new ASN1();
-[out,map] = asn1.decode(sect571k1);
+[out,map] = asn1.decode(key);
 console.log(out);
 console.log(map);
 /*

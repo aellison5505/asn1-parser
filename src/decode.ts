@@ -242,16 +242,23 @@ export class Decode {
    }
 
    private integerTag(encoding: Buffer, count: number): number {
+      let mapData = <buildMap>{};
+      mapData.form = <formType>form[encoding[count] & mask.form];
       this.decoded +=`${pre[this.pre]}${tag[tag.INTEGER]}\n\t`;
       this.decoded +=`${pre[this.pre]}${form[encoding[count] & mask.form]}\n\t`;
       count++;
       let len: number; 
       [len, count]= this.getLength(encoding,count);
+      mapData.length = len;
       this.decoded +=`${pre[this.pre]}Length: ${len}\n\t`;
       count++;
       let int = Buffer.alloc(len);
       encoding.copy(int,0,count,count+len);
       count += len;
+      mapData.hex = int.toString('hex');
+      mapData.value = BigInt(`0x${int.toString('hex')}`);
+      this.buildMap.set(`${tag[tag.INTEGER]}-${this.step}`,mapData);
+      this.step++;
       this.decoded +=`${pre[this.pre]}Hex: ${int.toString('hex')}\n\t`;
       this.decoded +=`${pre[this.pre]}BigInt: ${BigInt(`0x${int.toString('hex')}`)}\n`;
       return count;
