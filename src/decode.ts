@@ -1,25 +1,30 @@
-import { form,formType,maskType,mask,tag,tagClass,tagClassType, tagType, pre } from './util';
+import { form,formType,mask,tag,tagClass,tagClassType, pre, buildMap } from './util';
+
 
 
 export class Decode {
 
    private decoded: string;
    private pre: number;
-   private ans1Map: Map<any,any>;
+   private buildMap: Map<string, buildMap>;
+   private step: number;
 
    constructor() {
       this.decoded = '';
-      this.pre = 0;
-      this.ans1Map = new Map();
+      this.pre = 0; 
+      this.buildMap = new Map();
+      this.step = 0;
    }
 
-   decode(encoding: Buffer): string {
+   decode(encoding: Buffer): [string,Map<string,buildMap>] {
       let count = 0;
       // console.log('len total',encoding.length);
       count = this.getTag(encoding, count);
   //    console.log(count);
-      console.log(this.decoded);
-      return this.decoded;
+      let obj: Object = Object.fromEntries(this.buildMap);
+    //  console.log(obj);
+     // console.log(this.decoded);
+      return [this.decoded,this.buildMap];
 
    }
 
@@ -63,14 +68,20 @@ export class Decode {
    }
 
    private nonUniversal(encoding: Buffer, count: number, tag: tagClassType): number {
+      let mapData = <buildMap>{};
+      mapData.form = <formType>form[encoding[count] & mask.form];
+      mapData.value = `${(encoding[count] & mask.tag).toString(10)}`;
       this.decoded +=`${pre[this.pre]}${tagClass[tagClass[tag]]}\n\t`;
       this.decoded +=`${pre[this.pre]}${form[encoding[count] & mask.form]}\n\t`;
       this.decoded +=`${pre[this.pre]}Tag: ${(encoding[count] & mask.tag).toString(10)}\n\t`;
       count++;
       let len: number;
       [len, count]= this.getLength(encoding,count);
+      mapData.length = len;
       this.decoded +=`${pre[this.pre]}Length: ${len}\n`;
       count++;
+      this.buildMap.set(`${tagClass[tagClass[tag]]}-${this.step}`,mapData);
+      this.step++;
       let i = count;
       let end = count+len;
      // console.log(i,end);
@@ -104,41 +115,55 @@ export class Decode {
                count = this.bitString(encoding,count);
                break;
          default:
-            //throw new Error(`Tag Not Supported ${(encoding[count] & mask.tag).toString(10)}`)
-            count = this.octetStringTag(encoding,count);
+            throw new Error(`Tag Not Supported ${(encoding[count] & mask.tag).toString(10)}`)
+           // count = this.octetStringTag(encoding,count);
       }
       return count;
    }
 
    private sequenceTag(encoding: Buffer, count: number): number {
+      let mapData = <buildMap>{
+         form: <formType>form[encoding[count] & mask.form]
+      }
+     let mapName = `${tag[0x10]}-${this.step}`;
+    
       this.decoded +=`${pre[this.pre]}${tag[0x10]}\n\t`;
       this.decoded +=`${pre[this.pre]}${form[encoding[count] & mask.form]}\n\t`;
       count++;
       let length: number;
       [length, count] = this.getLength(encoding,count);
+      mapData.length = length;
+      this.buildMap.set(mapName,mapData);
       this.decoded +=`${pre[this.pre]}Length: ${length}\n`;
+    
+      this.step++;
     //  console.log('seq len',length);
       count++;
       this.pre++;
-      let i = count;
+     // let i = count;
       let end = count+length-1
    //   console.log('seq',i,end);
-      do {
+      for(let i = count; i < end;) {
          i = this.getTag(encoding, i);
     //     console.log('seq', i);
-      } while(i < end);
-
+      }
+      
+     
       this.pre--;
       count += length;
       return count;
    }
 
    private objectIdentifer(encoding: Buffer, count: number): number {
+      let mapData = <buildMap>{
+         form: <formType>form[encoding[count] & mask.form]
+      }
       this.decoded +=`${pre[this.pre]}${tag[tag.OBJECT_IDENTIFIER]}\n\t`;
       this.decoded +=`${pre[this.pre]}${form[encoding[count] & mask.form]}\n\t`;
       count++;
       let len: number; 
       [len, count]= this.getLength(encoding,count);
+      mapData.length = len;
       this.decoded +=`${pre[this.pre]}Length: ${len}\n\t`;
       count++;
       let obj = Buffer.alloc(len);
@@ -148,10 +173,10 @@ export class Decode {
       let carry = 0;
       let strBuf = Buffer.alloc(0);
       obj.forEach((byte,i) => {
-         console.log('b',byte.toString(16))
+         //console.log('b',byte.toString(16))
          if(i === 0) {
             strObj = `${Math.floor(byte/40)}.${byte%40}`;
-            console.log(strObj);
+            //console.log(strObj);
             return;
          }
          if(byte & mask.bit8) {
@@ -162,7 +187,7 @@ export class Decode {
             carry = bit1;
             pack = 1;
             strBuf = Buffer.concat([strBuf, Buffer.alloc(1,byte)]);
-            console.log('carry', byte.toString(16));
+            ////console.log('carry', byte.toString(16));
             return;
          }
          if(pack === 1) {
@@ -170,20 +195,24 @@ export class Decode {
             carry = 0;
             pack = 0;
             strBuf = Buffer.concat([strBuf, Buffer.alloc(1,byte)]);
-            console.log('last', byte.toString(16));
+            //console.log('last', byte.toString(16));
             let strTemp = parseInt(strBuf.toString('hex'),16);
             strObj += `.${strTemp}`;
-            console.log('str',strObj);
+            //console.log('str',strObj);
             strBuf = Buffer.alloc(0);
             return;
          }
          if(pack === 0) {
             strObj += `.${byte.toString(10)}`;
-            console.log(strObj);
+            //console.log(strObj);
             return;
          }
 
       });
+      mapData.value = strObj;
+      mapData.hex =  obj.toString('hex');
+      this.buildMap.set(`${tag[tag.OBJECT_IDENTIFIER]}-${this.step}`,mapData);
+      this.step++;
       this.decoded +=`${pre[this.pre]}${obj.toString('hex')}\n\t`;
       this.decoded +=`${pre[this.pre]}${strObj}\n`;
       count += len;
@@ -191,15 +220,22 @@ export class Decode {
    }
 
    private bitString(encoding: Buffer, count: number): number {
+      let mapData = <buildMap>{
+         form: <formType>form[encoding[count] & mask.form],
+      };
       this.decoded +=`${pre[this.pre]}${tag[tag.BIT_STRING]}\n\t`;
       this.decoded +=`${pre[this.pre]}${form[encoding[count] & mask.form]}\n\t`;
       count++;
       let len: number; 
       [len, count]= this.getLength(encoding,count);
+      mapData.length = len;
       this.decoded +=`${pre[this.pre]}Length: ${len}\n\t`;
       count++;
       let bit = Buffer.alloc(len);
-      encoding.copy(bit,0,count+1,count+len);
+      encoding.copy(bit,0,count,count+len);
+      mapData.hex = bit.toString('hex');
+      this.buildMap.set(tag[tag.BIT_STRING]+'-'+this.step, mapData);
+      this.step++;
       this.decoded +=`${pre[this.pre]}${bit.toString('hex')}\n`;
       count += len;
       return count;
@@ -222,16 +258,22 @@ export class Decode {
    }
 
    private octetStringTag(encoding: Buffer, count: number): number {
+      let mapData = <buildMap>{};
+      mapData.form = <formType>form[encoding[count] & mask.form];
       this.decoded +=`${pre[this.pre]}${tag[tag.OCTET_STRING]}\n\t`;
       this.decoded +=`${pre[this.pre]}${form[encoding[count] & mask.form]}\n\t`;
       count++;
       let len: number;
       [len, count]= this.getLength(encoding,count);
+      mapData.length = len;
       this.decoded +=`${pre[this.pre]}Length: ${len}\n\t`;
       count++;
       let oct = Buffer.alloc(len);
       encoding.copy(oct,0,count,count+len);
       count += len;
+      mapData.hex = oct.toString('hex');
+      this.buildMap.set(`${tag[tag.OCTET_STRING]}-${this.step}`, mapData);
+      this.step++;
       this.decoded +=`${pre[this.pre]}${oct.toString('hex')}\n`;
       return count;
 

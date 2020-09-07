@@ -1,4 +1,4 @@
-import { TagBuilder } from './tagBuilders';
+import { tagBuilderType } from './tagBuilders';
  export type tagClassType =  keyof typeof tagClass;
  
  export enum tagClass {
@@ -62,7 +62,6 @@ import { TagBuilder } from './tagBuilders';
      length?: number;
      data?: Buffer
 }
-
 export interface integerFrame extends tagFrame {
     data: Buffer;
 }
@@ -79,13 +78,20 @@ export interface objectIdentifierFrame extends tagFrame {
 }
 
 export interface sequenceFrame extends tagFrame {
-    children: TagBuilder[];
+    children: tagBuilderType[];
     form: formType
 }
 export interface contextSpecificFrame extends tagFrame {
-    child: TagBuilder;
+    child: tagBuilderType;
     form: formType;
     tag: number;
+}
+
+export interface buildMap extends tagFrame, objectIdentifierFrame {
+    child?: Map<string, buildMap>;
+    children?:  Map<string, buildMap>;
+    value?: any;
+    hex?: string;
 }
 
 

@@ -1,6 +1,14 @@
 import { tagClass, tag, form, integerFrame, sequenceFrame, tagFrameType, tagType, tagClassType, bitStringFrame, contextSpecificFrame, objectIdentifierFrame, mask, octetStringFrame} from './util';
 
-export class TagBuilder {
+export type tagBuilderType = TagBuilder 
+| BitString 
+| ContextSpecific 
+| Integer 
+| ObjectIdentifier 
+| OctetString
+| Sequence;
+
+class TagBuilder {
 
     constructor(private _frame: tagFrameType, private _tag: tagType, private _tagClass: tagClassType ) {   
   
@@ -118,6 +126,7 @@ export class ObjectIdentifier extends TagBuilder {
                 if(num > 127){
                    let carry = 0;
                    for(let i = byte.length -1; i >= 0; i--)  {
+                       byte[i] += carry;
                        carry = Math.floor(byte[i]/128);
                        byte[i] = byte[i]%128;
                        if(i < byte.length -1){

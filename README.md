@@ -31,20 +31,21 @@ SEQUENCE
 
 * [build](#build)
 * [decode](#decode)
+* [sequence](#sequence)
 
 ## Methods
 
 ###  build
 
-▸ **build**(`tagBuilder`: [TagBuilder](#classes_tagbuilders_tagbuildermd)): *string*
+▸ **build**(`tagBuilder`: [tagBuilderType](#tagbuildertype)): *string*
 
-Defined in asn1.ts:20
+Defined in asn1.ts:21
 
 **Parameters:**
 
 Name | Type |
 ------ | ------ |
-`tagBuilder` | [TagBuilder](#classes_tagbuilders_tagbuildermd) |
+`tagBuilder` | [tagBuilderType](#tagbuildertype) |
 
 **Returns:** *string*
 
@@ -54,7 +55,7 @@ ___
 
 ▸ **decode**(`encoding`: Buffer): *string*
 
-Defined in asn1.ts:15
+Defined in asn1.ts:16
 
 **Parameters:**
 
@@ -63,6 +64,22 @@ Name | Type |
 `encoding` | Buffer |
 
 **Returns:** *string*
+
+___
+
+###  sequence
+
+▸ **sequence**(`frameTag`: [sequenceFrame](#interfaces_util_sequenceframemd)): *[Sequence](#classes_tagbuilders_sequencemd)*
+
+Defined in asn1.ts:25
+
+**Parameters:**
+
+Name | Type |
+------ | ------ |
+`frameTag` | [sequenceFrame](#interfaces_util_sequenceframemd) |
+
+**Returns:** *[Sequence](#classes_tagbuilders_sequencemd)*
 
 
 <a name="classes_decode_decodemd"></a>
@@ -345,7 +362,7 @@ Name | Type |
 
 *Overrides [TagBuilder](#classes_tagbuilders_tagbuildermd).[constructor](#constructor)*
 
-Defined in tagBuilders.ts:75
+Defined in tagBuilders.ts:83
 
 **Parameters:**
 
@@ -361,7 +378,7 @@ Name | Type |
 
 • **_frameTag**: *[bitStringFrame](#interfaces_util_bitstringframemd)*
 
-Defined in tagBuilders.ts:78
+Defined in tagBuilders.ts:86
 
 ## Accessors
 
@@ -371,7 +388,7 @@ Defined in tagBuilders.ts:78
 
 *Inherited from [TagBuilder](#classes_tagbuilders_tagbuildermd).[coded](#coded)*
 
-Defined in tagBuilders.ts:56
+Defined in tagBuilders.ts:64
 
 **Returns:** *Buffer*
 
@@ -383,7 +400,7 @@ ___
 
 *Inherited from [TagBuilder](#classes_tagbuilders_tagbuildermd).[data](#data)*
 
-Defined in tagBuilders.ts:25
+Defined in tagBuilders.ts:33
 
 **Returns:** *Buffer‹›*
 
@@ -395,7 +412,7 @@ ___
 
 *Inherited from [TagBuilder](#classes_tagbuilders_tagbuildermd).[dataLength](#datalength)*
 
-Defined in tagBuilders.ts:42
+Defined in tagBuilders.ts:50
 
 **Returns:** *number*
 
@@ -407,7 +424,7 @@ ___
 
 *Inherited from [TagBuilder](#classes_tagbuilders_tagbuildermd).[form](#form)*
 
-Defined in tagBuilders.ts:37
+Defined in tagBuilders.ts:45
 
 **Returns:** *[form](#enums_util_formmd)*
 
@@ -419,7 +436,7 @@ ___
 
 *Inherited from [TagBuilder](#classes_tagbuilders_tagbuildermd).[length](#length)*
 
-Defined in tagBuilders.ts:46
+Defined in tagBuilders.ts:54
 
 **Returns:** *number*
 
@@ -431,7 +448,7 @@ ___
 
 *Inherited from [TagBuilder](#classes_tagbuilders_tagbuildermd).[tag](#tag)*
 
-Defined in tagBuilders.ts:20
+Defined in tagBuilders.ts:28
 
 **Returns:** *[INTEGER](#integer) | [BIT_STRING](#bit_string) | [OCTET_STRING](#octet_string) | [NULL](#null) | [OBJECT_IDENTIFIER](#object_identifier) | [UTF8String](#utf8string) | [SEQUENCE](#sequence) | [SET](#set) | [PrintableString](#printablestring) | [IA5String](#ia5string) | [UTCTime](#utctime) | [GeneralizedTime](#generalizedtime) | [CUSTOM](#custom)*
 
@@ -443,7 +460,7 @@ ___
 
 *Inherited from [TagBuilder](#classes_tagbuilders_tagbuildermd).[tagClass](#tagclass)*
 
-Defined in tagBuilders.ts:33
+Defined in tagBuilders.ts:41
 
 **Returns:** *[tagClass](#enums_util_tagclassmd)*
 
@@ -488,7 +505,7 @@ Defined in tagBuilders.ts:33
 
 *Overrides [TagBuilder](#classes_tagbuilders_tagbuildermd).[constructor](#constructor)*
 
-Defined in tagBuilders.ts:159
+Defined in tagBuilders.ts:167
 
 **Parameters:**
 
@@ -504,7 +521,7 @@ Name | Type |
 
 • **_frameTag**: *[contextSpecificFrame](#interfaces_util_contextspecificframemd)*
 
-Defined in tagBuilders.ts:161
+Defined in tagBuilders.ts:169
 
 ## Accessors
 
@@ -514,7 +531,7 @@ Defined in tagBuilders.ts:161
 
 *Inherited from [TagBuilder](#classes_tagbuilders_tagbuildermd).[coded](#coded)*
 
-Defined in tagBuilders.ts:56
+Defined in tagBuilders.ts:64
 
 **Returns:** *Buffer*
 
@@ -526,7 +543,7 @@ ___
 
 *Inherited from [TagBuilder](#classes_tagbuilders_tagbuildermd).[data](#data)*
 
-Defined in tagBuilders.ts:25
+Defined in tagBuilders.ts:33
 
 **Returns:** *Buffer‹›*
 
@@ -538,7 +555,7 @@ ___
 
 *Inherited from [TagBuilder](#classes_tagbuilders_tagbuildermd).[dataLength](#datalength)*
 
-Defined in tagBuilders.ts:42
+Defined in tagBuilders.ts:50
 
 **Returns:** *number*
 
@@ -550,7 +567,7 @@ ___
 
 *Inherited from [TagBuilder](#classes_tagbuilders_tagbuildermd).[form](#form)*
 
-Defined in tagBuilders.ts:37
+Defined in tagBuilders.ts:45
 
 **Returns:** *[form](#enums_util_formmd)*
 
@@ -562,7 +579,7 @@ ___
 
 *Inherited from [TagBuilder](#classes_tagbuilders_tagbuildermd).[length](#length)*
 
-Defined in tagBuilders.ts:46
+Defined in tagBuilders.ts:54
 
 **Returns:** *number*
 
@@ -574,7 +591,7 @@ ___
 
 *Overrides [TagBuilder](#classes_tagbuilders_tagbuildermd).[tag](#tag)*
 
-Defined in tagBuilders.ts:167
+Defined in tagBuilders.ts:175
 
 **Returns:** *number*
 
@@ -586,7 +603,7 @@ ___
 
 *Inherited from [TagBuilder](#classes_tagbuilders_tagbuildermd).[tagClass](#tagclass)*
 
-Defined in tagBuilders.ts:33
+Defined in tagBuilders.ts:41
 
 **Returns:** *[tagClass](#enums_util_tagclassmd)*
 
@@ -631,7 +648,7 @@ Defined in tagBuilders.ts:33
 
 *Overrides [TagBuilder](#classes_tagbuilders_tagbuildermd).[constructor](#constructor)*
 
-Defined in tagBuilders.ts:67
+Defined in tagBuilders.ts:75
 
 **Parameters:**
 
@@ -647,7 +664,7 @@ Name | Type |
 
 • **_frameTag**: *[integerFrame](#interfaces_util_integerframemd)*
 
-Defined in tagBuilders.ts:70
+Defined in tagBuilders.ts:78
 
 ## Accessors
 
@@ -657,7 +674,7 @@ Defined in tagBuilders.ts:70
 
 *Inherited from [TagBuilder](#classes_tagbuilders_tagbuildermd).[coded](#coded)*
 
-Defined in tagBuilders.ts:56
+Defined in tagBuilders.ts:64
 
 **Returns:** *Buffer*
 
@@ -669,7 +686,7 @@ ___
 
 *Inherited from [TagBuilder](#classes_tagbuilders_tagbuildermd).[data](#data)*
 
-Defined in tagBuilders.ts:25
+Defined in tagBuilders.ts:33
 
 **Returns:** *Buffer‹›*
 
@@ -681,7 +698,7 @@ ___
 
 *Inherited from [TagBuilder](#classes_tagbuilders_tagbuildermd).[dataLength](#datalength)*
 
-Defined in tagBuilders.ts:42
+Defined in tagBuilders.ts:50
 
 **Returns:** *number*
 
@@ -693,7 +710,7 @@ ___
 
 *Inherited from [TagBuilder](#classes_tagbuilders_tagbuildermd).[form](#form)*
 
-Defined in tagBuilders.ts:37
+Defined in tagBuilders.ts:45
 
 **Returns:** *[form](#enums_util_formmd)*
 
@@ -705,7 +722,7 @@ ___
 
 *Inherited from [TagBuilder](#classes_tagbuilders_tagbuildermd).[length](#length)*
 
-Defined in tagBuilders.ts:46
+Defined in tagBuilders.ts:54
 
 **Returns:** *number*
 
@@ -717,7 +734,7 @@ ___
 
 *Inherited from [TagBuilder](#classes_tagbuilders_tagbuildermd).[tag](#tag)*
 
-Defined in tagBuilders.ts:20
+Defined in tagBuilders.ts:28
 
 **Returns:** *[INTEGER](#integer) | [BIT_STRING](#bit_string) | [OCTET_STRING](#octet_string) | [NULL](#null) | [OBJECT_IDENTIFIER](#object_identifier) | [UTF8String](#utf8string) | [SEQUENCE](#sequence) | [SET](#set) | [PrintableString](#printablestring) | [IA5String](#ia5string) | [UTCTime](#utctime) | [GeneralizedTime](#generalizedtime) | [CUSTOM](#custom)*
 
@@ -729,7 +746,7 @@ ___
 
 *Inherited from [TagBuilder](#classes_tagbuilders_tagbuildermd).[tagClass](#tagclass)*
 
-Defined in tagBuilders.ts:33
+Defined in tagBuilders.ts:41
 
 **Returns:** *[tagClass](#enums_util_tagclassmd)*
 
@@ -778,7 +795,7 @@ Defined in tagBuilders.ts:33
 
 *Overrides [TagBuilder](#classes_tagbuilders_tagbuildermd).[constructor](#constructor)*
 
-Defined in tagBuilders.ts:90
+Defined in tagBuilders.ts:98
 
 **Parameters:**
 
@@ -794,7 +811,7 @@ Name | Type |
 
 • **_frameTag**: *[objectIdentifierFrame](#interfaces_util_objectidentifierframemd)*
 
-Defined in tagBuilders.ts:92
+Defined in tagBuilders.ts:100
 
 ## Accessors
 
@@ -804,7 +821,7 @@ Defined in tagBuilders.ts:92
 
 *Inherited from [TagBuilder](#classes_tagbuilders_tagbuildermd).[coded](#coded)*
 
-Defined in tagBuilders.ts:56
+Defined in tagBuilders.ts:64
 
 **Returns:** *Buffer*
 
@@ -816,7 +833,7 @@ ___
 
 *Inherited from [TagBuilder](#classes_tagbuilders_tagbuildermd).[data](#data)*
 
-Defined in tagBuilders.ts:25
+Defined in tagBuilders.ts:33
 
 **Returns:** *Buffer‹›*
 
@@ -828,7 +845,7 @@ ___
 
 *Inherited from [TagBuilder](#classes_tagbuilders_tagbuildermd).[dataLength](#datalength)*
 
-Defined in tagBuilders.ts:42
+Defined in tagBuilders.ts:50
 
 **Returns:** *number*
 
@@ -840,7 +857,7 @@ ___
 
 *Inherited from [TagBuilder](#classes_tagbuilders_tagbuildermd).[form](#form)*
 
-Defined in tagBuilders.ts:37
+Defined in tagBuilders.ts:45
 
 **Returns:** *[form](#enums_util_formmd)*
 
@@ -852,7 +869,7 @@ ___
 
 *Inherited from [TagBuilder](#classes_tagbuilders_tagbuildermd).[length](#length)*
 
-Defined in tagBuilders.ts:46
+Defined in tagBuilders.ts:54
 
 **Returns:** *number*
 
@@ -864,7 +881,7 @@ ___
 
 *Inherited from [TagBuilder](#classes_tagbuilders_tagbuildermd).[tag](#tag)*
 
-Defined in tagBuilders.ts:20
+Defined in tagBuilders.ts:28
 
 **Returns:** *[INTEGER](#integer) | [BIT_STRING](#bit_string) | [OCTET_STRING](#octet_string) | [NULL](#null) | [OBJECT_IDENTIFIER](#object_identifier) | [UTF8String](#utf8string) | [SEQUENCE](#sequence) | [SET](#set) | [PrintableString](#printablestring) | [IA5String](#ia5string) | [UTCTime](#utctime) | [GeneralizedTime](#generalizedtime) | [CUSTOM](#custom)*
 
@@ -876,7 +893,7 @@ ___
 
 *Inherited from [TagBuilder](#classes_tagbuilders_tagbuildermd).[tagClass](#tagclass)*
 
-Defined in tagBuilders.ts:33
+Defined in tagBuilders.ts:41
 
 **Returns:** *[tagClass](#enums_util_tagclassmd)*
 
@@ -886,7 +903,7 @@ Defined in tagBuilders.ts:33
 
 ▸ **buildObjectId**(): *Buffer*
 
-Defined in tagBuilders.ts:97
+Defined in tagBuilders.ts:105
 
 **Returns:** *Buffer*
 
@@ -931,7 +948,7 @@ Defined in tagBuilders.ts:97
 
 *Overrides [TagBuilder](#classes_tagbuilders_tagbuildermd).[constructor](#constructor)*
 
-Defined in tagBuilders.ts:83
+Defined in tagBuilders.ts:91
 
 **Parameters:**
 
@@ -947,7 +964,7 @@ Name | Type |
 
 • **_frameTag**: *[octetStringFrame](#interfaces_util_octetstringframemd)*
 
-Defined in tagBuilders.ts:85
+Defined in tagBuilders.ts:93
 
 ## Accessors
 
@@ -957,7 +974,7 @@ Defined in tagBuilders.ts:85
 
 *Inherited from [TagBuilder](#classes_tagbuilders_tagbuildermd).[coded](#coded)*
 
-Defined in tagBuilders.ts:56
+Defined in tagBuilders.ts:64
 
 **Returns:** *Buffer*
 
@@ -969,7 +986,7 @@ ___
 
 *Inherited from [TagBuilder](#classes_tagbuilders_tagbuildermd).[data](#data)*
 
-Defined in tagBuilders.ts:25
+Defined in tagBuilders.ts:33
 
 **Returns:** *Buffer‹›*
 
@@ -981,7 +998,7 @@ ___
 
 *Inherited from [TagBuilder](#classes_tagbuilders_tagbuildermd).[dataLength](#datalength)*
 
-Defined in tagBuilders.ts:42
+Defined in tagBuilders.ts:50
 
 **Returns:** *number*
 
@@ -993,7 +1010,7 @@ ___
 
 *Inherited from [TagBuilder](#classes_tagbuilders_tagbuildermd).[form](#form)*
 
-Defined in tagBuilders.ts:37
+Defined in tagBuilders.ts:45
 
 **Returns:** *[form](#enums_util_formmd)*
 
@@ -1005,7 +1022,7 @@ ___
 
 *Inherited from [TagBuilder](#classes_tagbuilders_tagbuildermd).[length](#length)*
 
-Defined in tagBuilders.ts:46
+Defined in tagBuilders.ts:54
 
 **Returns:** *number*
 
@@ -1017,7 +1034,7 @@ ___
 
 *Inherited from [TagBuilder](#classes_tagbuilders_tagbuildermd).[tag](#tag)*
 
-Defined in tagBuilders.ts:20
+Defined in tagBuilders.ts:28
 
 **Returns:** *[INTEGER](#integer) | [BIT_STRING](#bit_string) | [OCTET_STRING](#octet_string) | [NULL](#null) | [OBJECT_IDENTIFIER](#object_identifier) | [UTF8String](#utf8string) | [SEQUENCE](#sequence) | [SET](#set) | [PrintableString](#printablestring) | [IA5String](#ia5string) | [UTCTime](#utctime) | [GeneralizedTime](#generalizedtime) | [CUSTOM](#custom)*
 
@@ -1029,7 +1046,7 @@ ___
 
 *Inherited from [TagBuilder](#classes_tagbuilders_tagbuildermd).[tagClass](#tagclass)*
 
-Defined in tagBuilders.ts:33
+Defined in tagBuilders.ts:41
 
 **Returns:** *[tagClass](#enums_util_tagclassmd)*
 
@@ -1078,7 +1095,7 @@ Defined in tagBuilders.ts:33
 
 *Overrides [TagBuilder](#classes_tagbuilders_tagbuildermd).[constructor](#constructor)*
 
-Defined in tagBuilders.ts:141
+Defined in tagBuilders.ts:149
 
 **Parameters:**
 
@@ -1094,7 +1111,7 @@ Name | Type |
 
 • **_frameTag**: *[sequenceFrame](#interfaces_util_sequenceframemd)*
 
-Defined in tagBuilders.ts:143
+Defined in tagBuilders.ts:151
 
 ## Accessors
 
@@ -1104,7 +1121,7 @@ Defined in tagBuilders.ts:143
 
 *Inherited from [TagBuilder](#classes_tagbuilders_tagbuildermd).[coded](#coded)*
 
-Defined in tagBuilders.ts:56
+Defined in tagBuilders.ts:64
 
 **Returns:** *Buffer*
 
@@ -1116,7 +1133,7 @@ ___
 
 *Inherited from [TagBuilder](#classes_tagbuilders_tagbuildermd).[data](#data)*
 
-Defined in tagBuilders.ts:25
+Defined in tagBuilders.ts:33
 
 **Returns:** *Buffer‹›*
 
@@ -1128,7 +1145,7 @@ ___
 
 *Inherited from [TagBuilder](#classes_tagbuilders_tagbuildermd).[dataLength](#datalength)*
 
-Defined in tagBuilders.ts:42
+Defined in tagBuilders.ts:50
 
 **Returns:** *number*
 
@@ -1140,7 +1157,7 @@ ___
 
 *Inherited from [TagBuilder](#classes_tagbuilders_tagbuildermd).[form](#form)*
 
-Defined in tagBuilders.ts:37
+Defined in tagBuilders.ts:45
 
 **Returns:** *[form](#enums_util_formmd)*
 
@@ -1152,7 +1169,7 @@ ___
 
 *Inherited from [TagBuilder](#classes_tagbuilders_tagbuildermd).[length](#length)*
 
-Defined in tagBuilders.ts:46
+Defined in tagBuilders.ts:54
 
 **Returns:** *number*
 
@@ -1164,7 +1181,7 @@ ___
 
 *Inherited from [TagBuilder](#classes_tagbuilders_tagbuildermd).[tag](#tag)*
 
-Defined in tagBuilders.ts:20
+Defined in tagBuilders.ts:28
 
 **Returns:** *[INTEGER](#integer) | [BIT_STRING](#bit_string) | [OCTET_STRING](#octet_string) | [NULL](#null) | [OBJECT_IDENTIFIER](#object_identifier) | [UTF8String](#utf8string) | [SEQUENCE](#sequence) | [SET](#set) | [PrintableString](#printablestring) | [IA5String](#ia5string) | [UTCTime](#utctime) | [GeneralizedTime](#generalizedtime) | [CUSTOM](#custom)*
 
@@ -1176,7 +1193,7 @@ ___
 
 *Inherited from [TagBuilder](#classes_tagbuilders_tagbuildermd).[tagClass](#tagclass)*
 
-Defined in tagBuilders.ts:33
+Defined in tagBuilders.ts:41
 
 **Returns:** *[tagClass](#enums_util_tagclassmd)*
 
@@ -1186,7 +1203,7 @@ Defined in tagBuilders.ts:33
 
 ▸ **buildData**(): *Buffer*
 
-Defined in tagBuilders.ts:149
+Defined in tagBuilders.ts:157
 
 **Returns:** *Buffer*
 
@@ -1246,7 +1263,7 @@ Defined in tagBuilders.ts:149
 
 \+ **new TagBuilder**(`_frame`: [tagFrameType](#tagframetype), `_tag`: [tagType](#tagtype), `_tagClass`: [tagClassType](#tagclasstype)): *[TagBuilder](#classes_tagbuilders_tagbuildermd)*
 
-Defined in tagBuilders.ts:3
+Defined in tagBuilders.ts:11
 
 **Parameters:**
 
@@ -1264,7 +1281,7 @@ Name | Type |
 
 • **_frame**: *[tagFrameType](#tagframetype)*
 
-Defined in tagBuilders.ts:5
+Defined in tagBuilders.ts:13
 
 ___
 
@@ -1272,7 +1289,7 @@ ___
 
 • **_tag**: *[tagType](#tagtype)*
 
-Defined in tagBuilders.ts:5
+Defined in tagBuilders.ts:13
 
 ___
 
@@ -1280,7 +1297,7 @@ ___
 
 • **_tagClass**: *[tagClassType](#tagclasstype)*
 
-Defined in tagBuilders.ts:5
+Defined in tagBuilders.ts:13
 
 ## Accessors
 
@@ -1288,7 +1305,7 @@ Defined in tagBuilders.ts:5
 
 • **get coded**(): *Buffer*
 
-Defined in tagBuilders.ts:56
+Defined in tagBuilders.ts:64
 
 **Returns:** *Buffer*
 
@@ -1298,7 +1315,7 @@ ___
 
 • **get data**(): *Buffer‹›*
 
-Defined in tagBuilders.ts:25
+Defined in tagBuilders.ts:33
 
 **Returns:** *Buffer‹›*
 
@@ -1308,7 +1325,7 @@ ___
 
 • **get dataLength**(): *number*
 
-Defined in tagBuilders.ts:42
+Defined in tagBuilders.ts:50
 
 **Returns:** *number*
 
@@ -1318,7 +1335,7 @@ ___
 
 • **get form**(): *[form](#enums_util_formmd)*
 
-Defined in tagBuilders.ts:37
+Defined in tagBuilders.ts:45
 
 **Returns:** *[form](#enums_util_formmd)*
 
@@ -1328,7 +1345,7 @@ ___
 
 • **get length**(): *number*
 
-Defined in tagBuilders.ts:46
+Defined in tagBuilders.ts:54
 
 **Returns:** *number*
 
@@ -1338,7 +1355,7 @@ ___
 
 • **get tag**(): *[INTEGER](#integer) | [BIT_STRING](#bit_string) | [OCTET_STRING](#octet_string) | [NULL](#null) | [OBJECT_IDENTIFIER](#object_identifier) | [UTF8String](#utf8string) | [SEQUENCE](#sequence) | [SET](#set) | [PrintableString](#printablestring) | [IA5String](#ia5string) | [UTCTime](#utctime) | [GeneralizedTime](#generalizedtime) | [CUSTOM](#custom)*
 
-Defined in tagBuilders.ts:20
+Defined in tagBuilders.ts:28
 
 **Returns:** *[INTEGER](#integer) | [BIT_STRING](#bit_string) | [OCTET_STRING](#octet_string) | [NULL](#null) | [OBJECT_IDENTIFIER](#object_identifier) | [UTF8String](#utf8string) | [SEQUENCE](#sequence) | [SET](#set) | [PrintableString](#printablestring) | [IA5String](#ia5string) | [UTCTime](#utctime) | [GeneralizedTime](#generalizedtime) | [CUSTOM](#custom)*
 
@@ -1348,7 +1365,7 @@ ___
 
 • **get tagClass**(): *[tagClass](#enums_util_tagclassmd)*
 
-Defined in tagBuilders.ts:33
+Defined in tagBuilders.ts:41
 
 **Returns:** *[tagClass](#enums_util_tagclassmd)*
 
@@ -1358,7 +1375,7 @@ Defined in tagBuilders.ts:33
 
 ▸ **integerBuffer**(`int`: number): *Buffer*
 
-Defined in tagBuilders.ts:10
+Defined in tagBuilders.ts:18
 
 **Parameters:**
 
@@ -1374,7 +1391,7 @@ ___
 
 ▸ **integerHex**(`int`: number): *string*
 
-Defined in tagBuilders.ts:14
+Defined in tagBuilders.ts:22
 
 **Parameters:**
 
@@ -2142,6 +2159,18 @@ Defined in util.ts:62
 * [OctetString](#classes_tagbuilders_octetstringmd)
 * [Sequence](#classes_tagbuilders_sequencemd)
 * [TagBuilder](#classes_tagbuilders_tagbuildermd)
+
+### Type aliases
+
+* [tagBuilderType](#tagbuildertype)
+
+## Type aliases
+
+###  tagBuilderType
+
+Ƭ **tagBuilderType**: *[TagBuilder](#classes_tagbuilders_tagbuildermd) | [BitString](#classes_tagbuilders_bitstringmd) | [ContextSpecific](#classes_tagbuilders_contextspecificmd) | [Integer](#classes_tagbuilders_integermd) | [ObjectIdentifier](#classes_tagbuilders_objectidentifiermd) | [OctetString](#classes_tagbuilders_octetstringmd) | [Sequence](#classes_tagbuilders_sequencemd)*
+
+Defined in tagBuilders.ts:3
 
 
 <a name="modules_util_md"></a>

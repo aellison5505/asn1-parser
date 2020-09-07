@@ -1,6 +1,7 @@
 /// <reference types="node" />
 import { tagClass, tag, form, integerFrame, sequenceFrame, tagFrameType, tagType, tagClassType, bitStringFrame, contextSpecificFrame, objectIdentifierFrame, octetStringFrame } from './util';
-export declare class TagBuilder {
+export declare type tagBuilderType = TagBuilder | BitString | ContextSpecific | Integer | ObjectIdentifier | OctetString | Sequence;
+declare class TagBuilder {
     private _frame;
     private _tag;
     private _tagClass;
@@ -42,3 +43,4 @@ export declare class ContextSpecific extends TagBuilder {
     constructor(_frameTag: contextSpecificFrame);
     get tag(): number;
 }
+export {};

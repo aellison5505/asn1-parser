@@ -1,10 +1,12 @@
 /// <reference types="node" />
+import { buildMap } from './util';
 export declare class Decode {
     private decoded;
     private pre;
-    private ans1Map;
+    private buildMap;
+    private step;
     constructor();
-    decode(encoding: Buffer): string;
+    decode(encoding: Buffer): [string, Map<string, buildMap>];
     private getTag;
     private getLength;
     private nonUniversal;
