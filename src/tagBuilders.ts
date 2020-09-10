@@ -65,9 +65,9 @@ class TagBuilder {
         if(!this.length)
         throw new Error('Bad Length');
         let tagCode = Buffer.alloc(1, (this.tagClass | this.tag | this.form));
-        console.log(tagCode);
+        // console.log(tagCode);
         let lenBuf = this.integerBuffer(this.length)
-        console.log(lenBuf);
+        //console.log(lenBuf);
         return  Buffer.concat([tagCode, lenBuf, this.data]);
     }
 }
@@ -125,13 +125,18 @@ export class ObjectIdentifier extends TagBuilder {
                 
                 if(num > 127){
                    let carry = 0;
-                   for(let i = byte.length -1; i >= 0; i--)  {
-                       byte[i] += carry;
-                       carry = Math.floor(byte[i]/128);
-                       byte[i] = byte[i]%128;
-                       if(i < byte.length -1){
+                   let end = byte.length-1;
+                   for(let i = end; i >= 0; i--)  {
+                      // byte[i] += carry;
+                       let newCarry = byte[i] & mask.bit8;
+                       newCarry = newCarry >> 7;
+                       byte[i] = byte[i] & ~mask.bit8
+                       if(i < end){
+                           byte[i] = byte[i] << 1;
+                           byte[i] = byte[i] | carry;
                            byte[i] = byte[i] | mask.bit8;
                        }
+                       carry = newCarry;
                     }
                     if(carry > 0) {
                         let newByte = Buffer.alloc(1,carry | mask.bit8) ;

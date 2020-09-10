@@ -49,6 +49,8 @@ import { tagBuilderType } from './tagBuilders';
      '\t\t\t'
  }
 
+ export type buildMapType = buildMap;
+
  export type tagFrameType = tagFrame 
     | integerFrame
     | sequenceFrame
@@ -92,6 +94,7 @@ export interface buildMap extends tagFrame, objectIdentifierFrame {
     children?:  Map<string, buildMap>;
     value?: any;
     hex?: string;
+    
 }
 
 

@@ -41,6 +41,7 @@ export declare enum pre {
     '\t\t' = 2,
     '\t\t\t' = 3
 }
+export declare type buildMapType = buildMap;
 export declare type tagFrameType = tagFrame | integerFrame | sequenceFrame | bitStringFrame | octetStringFrame | contextSpecificFrame | objectIdentifierFrame;
 export interface tagFrame {
     form?: formType;

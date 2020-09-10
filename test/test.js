@@ -22,21 +22,39 @@ let sect571k1 = Buffer.from('MIHuAgEBBEgBL68PizRJeKHpR6QRHmDpd0x39lX72781vPVpB/G
 //console.log(rsaKey.toString('hex'));
 
 let asn1 = new ASN1();
-[out,map] = asn1.decode(key);
-console.log(out);
-console.log(map);
-/*
-let hex = asn1.build(asn1.sequence({
-    children: [
-        asn1.integer({
-            data: Buffer.alloc(1,1)
+//[out,map] = asn1.decode(key);
+//console.log(out);
+//console.log(map);
+
+let hex = asn1.build( asn1.sequence({
+    children: [ asn1.integer({
+        data: Buffer.alloc(1,1)
+        }),
+        asn1.octetString({
+            data: Buffer.from('0123abf528', 'hex')
         }),
         asn1.bitString({
-            data: Buffer.from('00a2b4678900f1','hex')
+            data: Buffer.from('0b2c3528', 'hex')
+        }),
+        asn1.objectIdentifier({
+            str: '1.2.39321.2500'    
+        }),
+        asn1.contextSpecific({
+            child: asn1.bitString({
+                data: Buffer.from('0b2c3528ab', 'hex')
+            }),
         })
-    ]
-}));
+]}));
+
 console.log(hex);
+
+[out,map] = asn1.decode(Buffer.from(hex, 'hex'));
+let objMap = Object.fromEntries(map);
+console.log(out);
+console.log(objMap);
+
+
+/*
 
 asn1.decode(Buffer.from('BgUrgQQACg==','base64'));
 //let hex = asn1.encode(new Integer({
