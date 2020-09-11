@@ -1,6 +1,7 @@
+var assert = require('assert');
 const { ASN1 } = require('../lib/asn1');
 const { createECDH } = require('crypto');
-const { Integer, Sequence, BitString, ContextSpecific, OctetString, ObjectIdentifier } = require('../lib/tagBuilders');
+// const { Integer, Sequence, BitString, ContextSpecific, OctetString, ObjectIdentifier } = require('../lib/tagBuilders');
 
 let ec = createECDH('secp256k1');
 ec.generateKeys();
@@ -22,10 +23,13 @@ let sect571k1 = Buffer.from('MIHuAgEBBEgBL68PizRJeKHpR6QRHmDpd0x39lX72781vPVpB/G
 //console.log(rsaKey.toString('hex'));
 
 let asn1 = new ASN1();
+let hex = asn1.build( asn1.utcTime({
+    str: new Date(Date.now()),
+}))
 //[out,map] = asn1.decode(key);
 //console.log(out);
 //console.log(map);
-
+/*
 let hex = asn1.build( asn1.sequence({
     children: [ asn1.integer({
         data: Buffer.alloc(1,1)
@@ -40,21 +44,33 @@ let hex = asn1.build( asn1.sequence({
             str: '1.2.39321.2500'    
         }),
         asn1.contextSpecific({
+            tag: 1,
             child: asn1.bitString({
                 data: Buffer.from('0b2c3528ab', 'hex')
             }),
-        })
+        }),
+       asn1.printableString({
+           str: 'test'
+        }),
+        asn1.utf8String({
+            str: 'tést'
+        }),
+        asn1.ia5String({
+            str: 'test'
+            }),
 ]}));
-
+*/
 console.log(hex);
+
+//let hex = '170d3139313231363033303231305a';
 
 [out,map] = asn1.decode(Buffer.from(hex, 'hex'));
 let objMap = Object.fromEntries(map);
 console.log(out);
 console.log(objMap);
 
-
 /*
+
 
 asn1.decode(Buffer.from('BgUrgQQACg==','base64'));
 //let hex = asn1.encode(new Integer({

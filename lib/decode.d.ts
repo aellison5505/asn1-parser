@@ -1,5 +1,5 @@
 /// <reference types="node" />
-import { tag, tagClass, tagClassType, buildMap } from './util';
+import { tag, tagClass, buildMap } from './util';
 declare type baseTagType = baseTagVars;
 interface baseTagVars {
     decoded: string;
@@ -26,13 +26,12 @@ declare class tagBase {
     strForm(count: number): string;
     getTag(count: number): number;
     getLength(count: number): number[];
-    nonUniversal(count: number, tag: tagClassType): number;
     universal(count: number): number;
-    decodeTag(count: number): number | any;
-    decodeTag(count: number): [number, buildMap] | any;
-    decodeTag(count: number, x?: tagClass): number | any;
-    decodeTag(count: number, x?: tagClass): [number, buildMap] | any;
-    decodeTag(count: number, x?: buildMap): [number, buildMap] | any;
+    decodeTag(count: number): [number, buildMap] | number | any;
+    decodeTag(count: number, x: tagClass): number | any;
+    decodeTag(count: number, x: tagClass): number | [number, buildMap];
+    decodeTag(count: number, x: buildMap): [number, buildMap] | number | any;
+    decodeTag(count: number): [any, any] | any;
     write(strTag: string, map: any): void;
 }
 export declare class NonUniversal extends tagBase {
@@ -48,6 +47,22 @@ export declare class ObjectIdentiferTag extends tagBase {
     decodeTag(count: number): number;
 }
 export declare class OctetStringTag extends tagBase {
+    constructor(tagVars: baseTagVars);
+    decodeTag(count: number): number;
+}
+export declare class UTF8StringTag extends tagBase {
+    constructor(tagVars: baseTagVars);
+    decodeTag(count: number): number;
+}
+export declare class PrintableStringTag extends tagBase {
+    constructor(tagVars: baseTagVars);
+    decodeTag(count: number): number;
+}
+export declare class UTCTimeTag extends tagBase {
+    constructor(tagVars: baseTagVars);
+    decodeTag(count: number): number;
+}
+export declare class IA5StringTag extends tagBase {
     constructor(tagVars: baseTagVars);
     decodeTag(count: number): number;
 }

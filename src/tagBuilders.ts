@@ -1,4 +1,5 @@
-import { tagClass, tag, form, integerFrame, sequenceFrame, tagFrameType, tagType, tagClassType, bitStringFrame, contextSpecificFrame, objectIdentifierFrame, mask, octetStringFrame} from './util';
+import { tagClass, tag, form, integerFrame, sequenceFrame, tagFrameType, tagType, tagClassType, bitStringFrame, contextSpecificFrame, objectIdentifierFrame, printableStringFrame, mask, octetStringFrame, UTF8StringFrame, IA5StringFrame, UTCTimeFrame} from './util';
+import { threadId } from 'worker_threads';
 
 export type tagBuilderType = TagBuilder 
 | BitString 
@@ -6,7 +7,11 @@ export type tagBuilderType = TagBuilder
 | Integer 
 | ObjectIdentifier 
 | OctetString
-| Sequence;
+| Sequence
+| PrintableString
+| UTF8String
+| IA5String
+| UTCTime
 
 class TagBuilder {
 
@@ -72,6 +77,28 @@ class TagBuilder {
     }
 }
 
+export class UTCTime extends TagBuilder {
+
+
+    constructor(private _frameTag: UTCTimeFrame) {
+        super(_frameTag, 'UTCTime', 'Universal');   
+        this.convertDateTime();     
+    }
+
+    convertDateTime() {
+        let date;
+        let utc;
+        let utc1;
+        if(this._frameTag.str) {
+            date = new Date(this._frameTag.str);
+            utc1 = date.toISOString()
+            utc = utc1.replace('20','').replace(/-/g,'',).replace('T','').replace(/:/g,'').split('.');
+            this._frameTag.data = Buffer.from(utc[0]);
+           // utc = `${date.getUTCFullYear()-2000}${date.getUTCMonth()+1}${date.getUTCDay()}${date.getUTCHours()}${date.getUTCMinutes()}${date.getUTCSeconds()}Z`
+        }
+    }
+}
+
 export class Integer extends TagBuilder {
 
 
@@ -92,6 +119,27 @@ export class OctetString extends TagBuilder {
 
     constructor(private _frameTag: octetStringFrame) {
         super(_frameTag, 'OCTET_STRING', 'Universal'); 
+    }
+}
+
+export class PrintableString extends TagBuilder {
+
+    constructor(private _frameTag: printableStringFrame) {
+        super(_frameTag, 'PrintableString', 'Universal'); 
+    }
+}
+
+export class IA5String extends TagBuilder {
+
+    constructor(private _frameTag: IA5StringFrame) {
+        super(_frameTag, 'IA5String', 'Universal'); 
+    }
+}
+
+export class UTF8String extends TagBuilder {
+
+    constructor(private _frameTag: UTF8StringFrame) {
+        super(_frameTag, 'UTF8String', 'Universal'); 
     }
 }
 
@@ -127,9 +175,8 @@ export class ObjectIdentifier extends TagBuilder {
                    let carry = 0;
                    let end = byte.length-1;
                    for(let i = end; i >= 0; i--)  {
-                      // byte[i] += carry;
                        let newCarry = byte[i] & mask.bit8;
-                       newCarry = newCarry >> 7;
+                       newCarry = newCarry >>> 7;
                        byte[i] = byte[i] & ~mask.bit8
                        if(i < end){
                            byte[i] = byte[i] << 1;

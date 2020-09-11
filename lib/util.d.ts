@@ -42,7 +42,7 @@ export declare enum pre {
     '\t\t\t' = 3
 }
 export declare type buildMapType = buildMap;
-export declare type tagFrameType = tagFrame | integerFrame | sequenceFrame | bitStringFrame | octetStringFrame | contextSpecificFrame | objectIdentifierFrame;
+export declare type tagFrameType = tagFrame | integerFrame | sequenceFrame | bitStringFrame | octetStringFrame | contextSpecificFrame | objectIdentifierFrame | printableStringFrame | UTF8StringFrame | IA5StringFrame | UTCTimeFrame;
 export interface tagFrame {
     form?: formType;
     length?: number;
@@ -57,6 +57,17 @@ export interface bitStringFrame extends tagFrame {
 export interface octetStringFrame extends tagFrame {
     data: Buffer;
 }
+export interface printableStringFrame extends tagFrame {
+    data?: Buffer;
+    str?: string;
+}
+export interface IA5StringFrame extends tagFrame {
+    data?: Buffer;
+    str?: string;
+}
+export interface UTF8StringFrame extends tagFrame {
+    str?: string;
+}
 export interface objectIdentifierFrame extends tagFrame {
     str?: string;
 }
@@ -69,9 +80,14 @@ export interface contextSpecificFrame extends tagFrame {
     form: formType;
     tag: number;
 }
+export interface UTCTimeFrame extends tagFrame {
+    str?: string;
+    date?: Date;
+}
 export interface buildMap extends tagFrame, objectIdentifierFrame {
     child?: Map<string, buildMap>;
     children?: Map<string, buildMap>;
     value?: any;
     hex?: string;
+    tag?: number;
 }

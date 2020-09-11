@@ -15,12 +15,16 @@
 
 This will decode and build ASN.1
 Currently supported tags are
- INTEGER
- BIT_STRING
- OCTET_STRING
- OBJECT_IDENTIFIER
- SEQUENCE
- Context_Specific
+* BitString 
+* ContextSpecific 
+* Integer 
+* ObjectIdentifier 
+* OctetString
+* Sequence
+* PrintableString
+* UTF8String
+* IA5String
+* UTCTime
 
 ## Hierarchy
 

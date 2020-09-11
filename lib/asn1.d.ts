@@ -1,6 +1,6 @@
 /// <reference types="node" />
-import { tagBuilderType, Sequence, Integer, BitString, ObjectIdentifier, OctetString, ContextSpecific } from './tagBuilders';
-import { integerFrame, sequenceFrame, bitStringFrame, octetStringFrame, objectIdentifierFrame, contextSpecificFrame } from './util';
+import { tagBuilderType, Sequence, Integer, BitString, UTF8String, ObjectIdentifier, OctetString, ContextSpecific, PrintableString, IA5String, UTCTime } from './tagBuilders';
+import { integerFrame, sequenceFrame, bitStringFrame, octetStringFrame, objectIdentifierFrame, contextSpecificFrame, printableStringFrame, UTF8StringFrame, UTCTimeFrame, IA5StringFrame } from './util';
 /**
  * This will decode and build ASN.1
  * Currently supported tags are
@@ -24,6 +24,10 @@ export declare class ASN1 {
     integer(frameTag: integerFrame): Integer;
     bitString(frameTag: bitStringFrame): BitString;
     octetString(frameTag: octetStringFrame): OctetString;
+    printableString(frameTag: printableStringFrame): PrintableString;
+    ia5String(frameTag: IA5StringFrame): IA5String;
+    utf8String(frameTag: UTF8StringFrame): UTF8String;
+    utcTime(frameTag: UTCTimeFrame): UTCTime;
     objectIdentifier(frameTag: objectIdentifierFrame): ObjectIdentifier;
     contextSpecific(frameTag: contextSpecificFrame): ContextSpecific;
 }

@@ -83,12 +83,6 @@ class tagBase {
             case tagClass.Context_Specific:
                count = new NonUniversal(this.tagVars).decodeTag(count, tagClass.Context_Specific);
                break; 
-            case tagClass.Application:
-               count = this.nonUniversal(count, 'Application');
-               break;   
-            case tagClass.Private:
-               count = this.nonUniversal(count, 'Private');
-               break; 
             default:
                throw new Error(`Unknown Tag Class${(this.encoding[count] & mask.tagClass).toString(10)}`);
          }
@@ -97,9 +91,7 @@ class tagBase {
 
    getLength(count: number): number[] {
          if(this.encoding[count] & mask.bit8) {
-            // get long length
             let hexCount = this.encoding[count] & ~mask.bit8;
-         //   console.log('long count', hexCount.toString(10));
             count++;
             let i = count;
             let end = count+hexCount;
@@ -111,34 +103,6 @@ class tagBase {
          } else {
             return [this.encoding[count],count];
          }
-      }
-
-   nonUniversal(count: number, tag: tagClassType): number {
-      let mapData = <buildMap>{};
- /*
-      [count, mapData] = this.decodeTag(count);
-      this.write(`${this.strTag(tag.SEQUENCE)}-${this.step}`,mapData);
-      if (!mapData.length)
-         throw new Error('bad length');
-      this.step++;
-         mapData.length = len;
-         this.decoded +=`${pre[this.prefix]}Length: ${len}\n`;
-         count++;
-         this.buildMap.set(`${tagClass[tagClass[tag]]}-${this.step}`,mapData);
-         this.step++;
-         let i = count;
-         let end = count+len;
-        // console.log(i,end);
-         this.prefix++;
-         do {
-            i = this.getTag(i);
-         //   console.log('con', i);
-         } while(i < end);
-    
-         this.prefix--;
-         count += len;
-         */
-         return count;
       }
 
     universal(count: number): number {
@@ -161,6 +125,18 @@ class tagBase {
             case tag.BIT_STRING:
                  count = new BitStringTag(this.tagVars).decodeTag(count);
                   break;
+            case tag.PrintableString:
+               count = new PrintableStringTag(this.tagVars).decodeTag(count);
+                  break;
+            case tag.IA5String:
+               count = new IA5StringTag(this.tagVars).decodeTag(count);
+                  break;
+            case tag.UTF8String:
+               count = new UTF8StringTag(this.tagVars).decodeTag(count);
+                  break;
+            case tag.UTCTime:
+               count = new UTCTimeTag(this.tagVars).decodeTag(count);
+                  break;
             default:
                throw new Error(`Tag Not Supported ${(this.encoding[count] & mask.tag).toString(10)}`)
               // count = this.octetStringTag(encoding,count);
@@ -168,11 +144,12 @@ class tagBase {
          return count;
       }
 
-      decodeTag(count: number): number | any;
-      decodeTag(count: number): [number,buildMap]  | any;
-      decodeTag(count: number, x?: tagClass): number | any;
-      decodeTag(count: number, x?: tagClass): [number,buildMap] | any;
-      decodeTag(count: number, x?: buildMap): [number,buildMap] | any;
+   //   decodeTag(count: number): number;
+      decodeTag(count: number): [number,buildMap]  | number | any;
+      decodeTag(count: number, x: tagClass): number | any;
+      decodeTag(count: number, x: tagClass): number | [number,buildMap];
+      decodeTag(count: number, x: buildMap): [number,buildMap] | number | any;
+      decodeTag(count: number): [any,any] | any;
       decodeTag(count: number, x?: any): any{
          let ret = 0;
          let tagClass: tagClass;
@@ -229,8 +206,9 @@ export class NonUniversal extends tagBase {
 
    decodeTag(count: number, x?: tagClass | any): number {
        let mapData = <buildMap>{};
-      
+      let csTag = this.encoding[count] & mask.tag;
       [count, mapData] = super.decodeTag(count, x);
+      mapData.tag = csTag;
       this.write(`${tagClass[x]}-${this.step}`,mapData);
       if (!mapData.length)
          throw new Error('bad length');
@@ -318,7 +296,7 @@ export class ObjectIdentiferTag extends tagBase {
             if(byte & mask.bit8) {
                byte = byte & ~mask.bit8;
                let bit1 = byte & 1;
-               byte = byte >> 1;
+               byte = byte >>> 1;
                byte = (carry << 7) | byte;
                carry = bit1;
                pack = 1;
@@ -369,6 +347,92 @@ export class OctetStringTag extends tagBase {
       return count;
    }
 }
+
+export class UTF8StringTag extends tagBase {
+
+   constructor(tagVars: baseTagVars) {
+      super(tagVars);
+   }
+
+   decodeTag(count: number) {
+      let mapData: buildMap = {};
+      mapData.hex = '';
+      [count, mapData] = super.decodeTag(count, mapData);
+     ( !mapData.hex  ? mapData.hex = "00" : null)
+      mapData.value = Buffer.from(mapData.hex, 'hex').toString('utf-8');
+      this.write(`${this.strTag(tag.UTF8String)}-${this.step}`,mapData);
+      this.step++;
+      return count;
+   }
+}
+
+
+export class PrintableStringTag extends tagBase {
+
+   constructor(tagVars: baseTagVars) {
+      super(tagVars);
+   }
+
+   decodeTag(count: number) {
+      let mapData: buildMap = {};
+      mapData.hex = '';
+      [count, mapData] = super.decodeTag(count, mapData);
+     ( !mapData.hex  ? mapData.hex = "00" : null)
+      mapData.value = Buffer.from(mapData.hex, 'hex').toString();
+      this.write(`${this.strTag(tag.PrintableString)}-${this.step}`,mapData);
+      this.step++;
+      return count;
+   }
+}
+
+export class UTCTimeTag extends tagBase {
+
+   constructor(tagVars: baseTagVars) {
+      super(tagVars);
+   }
+
+   decodeTag(count: number) {
+      let mapData: buildMap = {};
+      mapData.hex = '';
+      [count, mapData] = super.decodeTag(count, mapData);
+     ( !mapData.hex  ? mapData.hex = "00" : null)
+     let time = Buffer.from(mapData.hex, 'hex');
+      let aTime = time.toString();
+      let strTime = [];
+      for(let i = 0; i < aTime.length-1; i++) {
+         strTime.push(parseInt(`${aTime[i]}${aTime[i+1]}`));
+         i = i +1;
+      }
+      (strTime[0] < 70 ? strTime[0] = strTime[0]+2000 : null);
+       strTime[1] -= 1
+   
+      // let arrTime = new Array(strTime);
+      mapData.value = new Date(Date.UTC.apply(this,<any>strTime));
+    //  mapData.value = new Date(Date.UTC(1996)).toUTCString();
+      this.write(`${this.strTag(tag.UTCTime)}-${this.step}`,mapData);
+      this.step++;
+      return count;
+   }
+}
+
+export class IA5StringTag extends tagBase {
+
+   constructor(tagVars: baseTagVars) {
+      super(tagVars);
+   }
+
+   decodeTag(count: number) {
+      let mapData: buildMap = {};
+      mapData.hex = '';
+      [count, mapData] = super.decodeTag(count, mapData);
+     ( !mapData.hex  ? mapData.hex = "00" : null)
+      mapData.value = Buffer.from(mapData.hex, 'hex').toString();
+      this.write(`${this.strTag(tag.IA5String)}-${this.step}`,mapData);
+      this.step++;
+      return count;
+   }
+}
+
 
 export class IntegerTag extends tagBase {
 

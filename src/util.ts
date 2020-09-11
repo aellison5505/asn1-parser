@@ -1,4 +1,4 @@
-import { tagBuilderType } from './tagBuilders';
+import { tagBuilderType, UTF8String } from './tagBuilders';
  export type tagClassType =  keyof typeof tagClass;
  
  export enum tagClass {
@@ -58,6 +58,11 @@ import { tagBuilderType } from './tagBuilders';
     | octetStringFrame
     | contextSpecificFrame
     | objectIdentifierFrame
+    | printableStringFrame
+    | UTF8StringFrame
+    | IA5StringFrame
+    | UTCTimeFrame
+    
 
  export interface tagFrame {
      form?: formType;
@@ -71,9 +76,24 @@ export interface integerFrame extends tagFrame {
 export interface bitStringFrame extends tagFrame {
     data: Buffer;
 }
-   export interface octetStringFrame extends tagFrame {
+export interface octetStringFrame extends tagFrame {
     data: Buffer;
 }
+
+export interface printableStringFrame extends tagFrame {
+    data?: Buffer;
+    str?: string
+}
+
+export interface IA5StringFrame extends tagFrame {
+    data?: Buffer;
+    str?: string
+}
+
+export interface UTF8StringFrame extends tagFrame {
+    str?: string
+}
+
 
 export interface objectIdentifierFrame extends tagFrame {
     str?: string;
@@ -89,12 +109,16 @@ export interface contextSpecificFrame extends tagFrame {
     tag: number;
 }
 
+export interface UTCTimeFrame extends tagFrame {
+    str?: string;
+    date?: Date;
+}
 export interface buildMap extends tagFrame, objectIdentifierFrame {
     child?: Map<string, buildMap>;
     children?:  Map<string, buildMap>;
     value?: any;
     hex?: string;
-    
+    tag?: number;
 }
 
 
